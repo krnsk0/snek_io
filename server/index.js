@@ -34,7 +34,7 @@ io.on('connection', socket => {
 });
 
 /**************
- * GAME
+ *    GAME
  **************/
 
 io.on('connection', socket => {
