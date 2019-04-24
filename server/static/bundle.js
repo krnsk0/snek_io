@@ -101,6 +101,7 @@ const socket = io();
  ********************/
 
 let dirStack = [];
+let currentDir;
 
 const getCurrentDirFromStack = dirStack => {
   if (dirStack.length === 0) {
@@ -126,7 +127,8 @@ document.addEventListener('keydown', evt => {
       dirStack.push('right');
     }
 
-    console.log(getCurrentDirFromStack(dirStack));
+    currentDir = getCurrentDirFromStack(dirStack);
+    console.log(currentDir);
   }
 });
 document.addEventListener('keyup', evt => {
@@ -144,7 +146,8 @@ document.addEventListener('keyup', evt => {
     dirStack = dirStack.filter(dir => dir !== 'right');
   }
 
-  console.log(getCurrentDirFromStack(dirStack));
+  currentDir = getCurrentDirFromStack(dirStack);
+  console.log(currentDir);
 });
 
 /***/ })
