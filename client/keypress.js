@@ -21,6 +21,11 @@ const getDirectionFromStack = list => {
 
 // keydowns push to list
 document.addEventListener('keydown', evt => {
+  // prevent defaults for arrow keys
+
+  if (evt.keyCode >= 37 && evt.keyCode <= 40) {
+    evt.preventDefault();
+  }
   if (evt.repeat === false) {
     if (evt.keyCode === 38) {
       // up
@@ -42,6 +47,10 @@ document.addEventListener('keydown', evt => {
 
 // keyups remove their key from the list
 document.addEventListener('keyup', evt => {
+  // prevent defaults for arrow keys
+  if (evt.keyCode >= 37 && evt.keyCode <= 40) {
+    evt.preventDefault();
+  }
   if (evt.keyCode === 38) {
     // up
     dirList = dirList.filter(dir => dir !== 'up');
