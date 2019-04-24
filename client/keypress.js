@@ -6,50 +6,55 @@ const socket = io();
  *  KEYPRESS LOGIC
  ********************/
 
-let dirStack = [];
+let dirList = [];
 export let direction = false;
-const getDirectionFromStack = stack => {
-  if (stack.length === 0) {
+
+// helper function to get the current direction from a list
+// this will be the most recent keypress
+const getDirectionFromStack = list => {
+  if (list.length === 0) {
     return false;
   } else {
-    return stack[stack.length - 1];
+    return list[list.length - 1];
   }
 };
+
+// keydowns push to list
 document.addEventListener('keydown', evt => {
   if (evt.repeat === false) {
     if (evt.keyCode === 38) {
       // up
-      dirStack.push('up');
+      dirList.push('up');
     } else if (evt.keyCode === 40) {
       // down
-      dirStack.push('down');
+      dirList.push('down');
     } else if (evt.keyCode === 37) {
       // left
-      dirStack.push('left');
+      dirList.push('left');
     } else if (evt.keyCode === 39) {
       // right
-      dirStack.push('right');
+      dirList.push('right');
     }
-    direction = getDirectionFromStack(dirStack);
+    direction = getDirectionFromStack(dirList);
     socket.emit('direction', direction);
-    // console.log(direction);
   }
 });
+
+// keyups remove their key from the list
 document.addEventListener('keyup', evt => {
   if (evt.keyCode === 38) {
     // up
-    dirStack = dirStack.filter(dir => dir !== 'up');
+    dirList = dirList.filter(dir => dir !== 'up');
   } else if (evt.keyCode === 40) {
     // down
-    dirStack = dirStack.filter(dir => dir !== 'down');
+    dirList = dirList.filter(dir => dir !== 'down');
   } else if (evt.keyCode === 37) {
     // left
-    dirStack = dirStack.filter(dir => dir !== 'left');
+    dirList = dirList.filter(dir => dir !== 'left');
   } else if (evt.keyCode === 39) {
     // right
-    dirStack = dirStack.filter(dir => dir !== 'right');
+    dirList = dirList.filter(dir => dir !== 'right');
   }
-  direction = getDirectionFromStack(dirStack);
+  direction = getDirectionFromStack(dirList);
   socket.emit('direction', direction);
-  // console.log(direction);
 });

@@ -97,6 +97,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _keypress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./keypress */ "./client/keypress.js");
 
+const canvas = document.getElementById('canvas');
 
 /***/ }),
 
@@ -117,54 +118,57 @@ const socket = io();
  *  KEYPRESS LOGIC
  ********************/
 
-let dirStack = [];
-let direction = false;
+let dirList = [];
+let direction = false; // helper function to get the current direction from a list
+// this will be the most recent keypress
 
-const getDirectionFromStack = stack => {
-  if (stack.length === 0) {
+const getDirectionFromStack = list => {
+  if (list.length === 0) {
     return false;
   } else {
-    return stack[stack.length - 1];
+    return list[list.length - 1];
   }
-};
+}; // keydowns push to list
+
 
 document.addEventListener('keydown', evt => {
   if (evt.repeat === false) {
     if (evt.keyCode === 38) {
       // up
-      dirStack.push('up');
+      dirList.push('up');
     } else if (evt.keyCode === 40) {
       // down
-      dirStack.push('down');
+      dirList.push('down');
     } else if (evt.keyCode === 37) {
       // left
-      dirStack.push('left');
+      dirList.push('left');
     } else if (evt.keyCode === 39) {
       // right
-      dirStack.push('right');
+      dirList.push('right');
     }
 
-    direction = getDirectionFromStack(dirStack);
-    socket.emit('direction', direction); // console.log(direction);
+    direction = getDirectionFromStack(dirList);
+    socket.emit('direction', direction);
   }
-});
+}); // keyups remove their key from the list
+
 document.addEventListener('keyup', evt => {
   if (evt.keyCode === 38) {
     // up
-    dirStack = dirStack.filter(dir => dir !== 'up');
+    dirList = dirList.filter(dir => dir !== 'up');
   } else if (evt.keyCode === 40) {
     // down
-    dirStack = dirStack.filter(dir => dir !== 'down');
+    dirList = dirList.filter(dir => dir !== 'down');
   } else if (evt.keyCode === 37) {
     // left
-    dirStack = dirStack.filter(dir => dir !== 'left');
+    dirList = dirList.filter(dir => dir !== 'left');
   } else if (evt.keyCode === 39) {
     // right
-    dirStack = dirStack.filter(dir => dir !== 'right');
+    dirList = dirList.filter(dir => dir !== 'right');
   }
 
-  direction = getDirectionFromStack(dirStack);
-  socket.emit('direction', direction); // console.log(direction);
+  direction = getDirectionFromStack(dirList);
+  socket.emit('direction', direction);
 });
 
 /***/ })
