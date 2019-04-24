@@ -37,6 +37,25 @@ io.on('connection', socket => {
  *    GAME
  **************/
 
+// constants
+const BOARD_WIDTH = 80;
+const BOARD_HEIGHT = 60;
+const UPDATES_PER_SECOND = 10;
+
+// create an empty map
+const mapFactory = () => {
+  return Array.from({ length: BOARD_HEIGHT }, () =>
+    Array.from({ length: BOARD_WIDTH }, () => Math.floor(Math.random() * 10))
+  );
+};
+
+setInterval(() => {
+  const map = mapFactory();
+  io.emit('state', { map });
+}, 100);
+
+// listening
 io.on('connection', socket => {
+  // listen for direction changes
   socket.on('direction', direction => console.log(direction));
 });
