@@ -22,26 +22,25 @@ const getDirectionFromStack = list => {
 // keydowns push to list
 document.addEventListener('keydown', evt => {
   // prevent defaults for arrow keys
-
   if (evt.keyCode >= 37 && evt.keyCode <= 40) {
     evt.preventDefault();
-  }
-  if (evt.repeat === false) {
-    if (evt.keyCode === 38) {
-      // up
-      dirList.push('up');
-    } else if (evt.keyCode === 40) {
-      // down
-      dirList.push('down');
-    } else if (evt.keyCode === 37) {
-      // left
-      dirList.push('left');
-    } else if (evt.keyCode === 39) {
-      // right
-      dirList.push('right');
+    if (evt.repeat === false) {
+      if (evt.keyCode === 38) {
+        // up
+        dirList.push('up');
+      } else if (evt.keyCode === 40) {
+        // down
+        dirList.push('down');
+      } else if (evt.keyCode === 37) {
+        // left
+        dirList.push('left');
+      } else if (evt.keyCode === 39) {
+        // right
+        dirList.push('right');
+      }
+      direction = getDirectionFromStack(dirList);
+      socket.emit('direction', direction);
     }
-    direction = getDirectionFromStack(dirList);
-    socket.emit('direction', direction);
   }
 });
 
@@ -50,20 +49,20 @@ document.addEventListener('keyup', evt => {
   // prevent defaults for arrow keys
   if (evt.keyCode >= 37 && evt.keyCode <= 40) {
     evt.preventDefault();
+    if (evt.keyCode === 38) {
+      // up
+      dirList = dirList.filter(dir => dir !== 'up');
+    } else if (evt.keyCode === 40) {
+      // down
+      dirList = dirList.filter(dir => dir !== 'down');
+    } else if (evt.keyCode === 37) {
+      // left
+      dirList = dirList.filter(dir => dir !== 'left');
+    } else if (evt.keyCode === 39) {
+      // right
+      dirList = dirList.filter(dir => dir !== 'right');
+    }
+    direction = getDirectionFromStack(dirList);
+    socket.emit('direction', direction);
   }
-  if (evt.keyCode === 38) {
-    // up
-    dirList = dirList.filter(dir => dir !== 'up');
-  } else if (evt.keyCode === 40) {
-    // down
-    dirList = dirList.filter(dir => dir !== 'down');
-  } else if (evt.keyCode === 37) {
-    // left
-    dirList = dirList.filter(dir => dir !== 'left');
-  } else if (evt.keyCode === 39) {
-    // right
-    dirList = dirList.filter(dir => dir !== 'right');
-  }
-  direction = getDirectionFromStack(dirList);
-  socket.emit('direction', direction);
 });
