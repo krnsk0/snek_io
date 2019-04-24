@@ -90,9 +90,26 @@
 /*!*************************!*\
   !*** ./client/index.js ***!
   \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _keypress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./keypress */ "./client/keypress.js");
+
+
+/***/ }),
+
+/***/ "./client/keypress.js":
+/*!****************************!*\
+  !*** ./client/keypress.js ***!
+  \****************************/
+/*! exports provided: direction */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "direction", function() { return direction; });
 /* eslint-disable complexity */
 // eslint-disable-next-line no-undef
 const socket = io();
@@ -101,13 +118,13 @@ const socket = io();
  ********************/
 
 let dirStack = [];
-let currentDir;
+let direction = false;
 
-const getCurrentDirFromStack = dirStack => {
-  if (dirStack.length === 0) {
+const getDirectionFromStack = stack => {
+  if (stack.length === 0) {
     return false;
   } else {
-    return dirStack[dirStack.length - 1];
+    return stack[stack.length - 1];
   }
 };
 
@@ -127,8 +144,8 @@ document.addEventListener('keydown', evt => {
       dirStack.push('right');
     }
 
-    currentDir = getCurrentDirFromStack(dirStack);
-    console.log(currentDir);
+    direction = getDirectionFromStack(dirStack);
+    socket.emit('direction', direction); // console.log(direction);
   }
 });
 document.addEventListener('keyup', evt => {
@@ -146,8 +163,8 @@ document.addEventListener('keyup', evt => {
     dirStack = dirStack.filter(dir => dir !== 'right');
   }
 
-  currentDir = getCurrentDirFromStack(dirStack);
-  console.log(currentDir);
+  direction = getDirectionFromStack(dirStack);
+  socket.emit('direction', direction); // console.log(direction);
 });
 
 /***/ })

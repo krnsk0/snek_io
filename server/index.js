@@ -34,7 +34,9 @@ io.on('connection', socket => {
 });
 
 /**************
- * TESTING
+ * GAME
  **************/
 
-io.on('connection', socket => {});
+io.on('connection', socket => {
+  socket.on('direction', direction => console.log(direction));
+});
