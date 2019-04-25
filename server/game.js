@@ -1,3 +1,4 @@
+/* eslint-disable function-paren-newline */
 // constants
 const BOARD_WIDTH = 80;
 const BOARD_HEIGHT = 60;
@@ -124,9 +125,10 @@ const startGame = io => {
     });
 
     // restart dead players
-    state.players = state.players.map(player =>
-      player.alive ? player : restartPlayer(player)
-    );
+    state.players = state.players.map(player => {
+      if (player.alive) return player;
+      else return restartPlayer(player);
+    });
 
     // send the map to clients
     io.emit('sync_map', map);

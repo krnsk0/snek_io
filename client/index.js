@@ -1,8 +1,8 @@
 /* eslint-disable no-shadow */
+/* global io */
 import { setUpKeyListeners } from './keypress';
 
 // set up socket
-// eslint-disable-next-line no-undef
 const socket = io();
 
 // constants
