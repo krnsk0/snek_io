@@ -6,8 +6,15 @@ const BOARD_HEIGHT = 60;
 const UPDATES_PER_SECOND = 10;
 
 const mapFactory = () => {
+  const emptyCellFactory = () => {
+    return {
+      color: 0,
+      name: ''
+    };
+  };
+
   return Array.from({ length: BOARD_HEIGHT }, () =>
-    Array.from({ length: BOARD_WIDTH }, () => 0)
+    Array.from({ length: BOARD_WIDTH }, () => emptyCellFactory())
   );
 };
 const map = mapFactory();
@@ -36,7 +43,8 @@ const newPlayerFactory = id => {
     tail: [],
     alive: true,
     justSpwaned: true,
-    connected: true
+    connected: true,
+    name: ''
   };
   return player;
 };
@@ -67,6 +75,11 @@ const startGame = io => {
       if (dir) {
         player.direction = dir;
       }
+    });
+
+    // name listener
+    socket.on('set_name', name => {
+      player.name = name;
     });
 
     // destroy player on disconnect
@@ -105,7 +118,7 @@ const startGame = io => {
           player.alive = false;
         }
         // check for tail collusions
-        if (player.alive && map[player.y][player.x] !== 0) {
+        if (player.alive && map[player.y][player.x].color !== 0) {
           player.alive = false;
         }
       }
@@ -118,17 +131,20 @@ const startGame = io => {
     state.players.forEach(player => {
       // for living players...
       if (player.alive && player.connected) {
-        // make the last player position the tail color
+        // make the last player position the tail color and turn off name
         const lastHead = player.tail[player.tail.length - 1];
-        map[lastHead[1]][lastHead[0]] = `hsl(${player.hue}, 40%, 30%)`;
+        map[lastHead[1]][lastHead[0]].color = `hsl(${player.hue}, 40%, 30%)`;
+        map[lastHead[1]][lastHead[0]].name = '';
 
         // render player heads
-        map[player.y][player.x] = `hsl(${player.hue}, 100%, 50%)`;
+        map[player.y][player.x].color = `hsl(${player.hue}, 100%, 50%)`;
+        map[player.y][player.x].name = player.name;
       }
       // erase dead players' tails
       if (!player.alive || !player.connected) {
         player.tail.forEach(segment => {
-          map[segment[1]][segment[0]] = 0;
+          map[segment[1]][segment[0]].color = 0;
+          map[segment[1]][segment[0]].name = '';
         });
       }
     });
