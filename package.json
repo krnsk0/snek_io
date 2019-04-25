@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build-watch & npm run start-server",
+    "start-dev": "npm run build-watch & nodemon server --ignore static",
     "build-watch": "webpack -w",
     "build-deploy": "webpack",
-    "start-server": "nodemon server --ignore static"
+    "start": "node server"
   },
   "author": "",
   "license": "ISC",
