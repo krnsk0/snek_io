@@ -30,7 +30,8 @@ const newPlayerFactory = id => {
     x,
     y,
     direction: false,
-    hue: Math.floor(Math.random() * 360)
+    hue: Math.floor(Math.random() * 360),
+    tail: []
   };
 };
 
@@ -60,6 +61,10 @@ const startGame = io => {
   setInterval(() => {
     // move players
     state.players = state.players.map(player => {
+      // push previous head to the tail array
+      player.tail.push([player.x, player.y]);
+
+      // do the move
       const vectors = {
         left: [-1, 0],
         right: [1, 0],
@@ -73,9 +78,14 @@ const startGame = io => {
       return player;
     });
 
-    // draw players
+    // update the map
     state.players.forEach(player => {
-      map[player.y][player.x] = player.hue;
+      // make the last player position the tail color
+      const lastHead = player.tail[player.tail.length - 1];
+      map[lastHead[1]][lastHead[0]] = `hsl(${player.hue}, 40%, 40%)`;
+
+      // render player heads
+      map[player.y][player.x] = `hsl(${player.hue}, 100%, 50%)`;
     });
 
     io.emit('sync_map', map);

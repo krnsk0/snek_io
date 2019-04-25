@@ -1,4 +1,5 @@
-adds colors to players
+add visual distinction between head and tail
+
 adds distinction between head and tail for players
 adds death on hitting screen edge
 allows players to kill other players
