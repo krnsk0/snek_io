@@ -35,7 +35,8 @@ const newPlayerFactory = id => {
     hue: Math.floor(Math.random() * 360),
     tail: [],
     alive: true,
-    justSpwaned: true
+    justSpwaned: true,
+    connected: true
   };
   return player;
 };
@@ -70,7 +71,8 @@ const startGame = io => {
 
     // destroy player on disconnect
     socket.on('disconnect', () => {
-      player.alive = false;
+      console.log('killing player');
+      player.connected = false;
     });
   });
 
@@ -115,7 +117,7 @@ const startGame = io => {
     // update the map
     state.players.forEach(player => {
       // for living players...
-      if (player.alive) {
+      if (player.alive && player.connected) {
         // make the last player position the tail color
         const lastHead = player.tail[player.tail.length - 1];
         map[lastHead[1]][lastHead[0]] = `hsl(${player.hue}, 40%, 30%)`;
@@ -124,12 +126,15 @@ const startGame = io => {
         map[player.y][player.x] = `hsl(${player.hue}, 100%, 50%)`;
       }
       // erase dead players' tails
-      if (!player.alive) {
+      if (!player.alive || !player.connected) {
         player.tail.forEach(segment => {
           map[segment[1]][segment[0]] = 0;
         });
       }
     });
+
+    // delete disconnected players
+    state.players = state.players.filter(player => player.connected);
 
     // restart dead players
     state.players = state.players.map(player => {
@@ -138,6 +143,7 @@ const startGame = io => {
     });
 
     // send the map to clients
+    // callback kill players if messages not received
     io.emit('sync_map', map);
   }, 1000 / UPDATES_PER_SECOND);
 };

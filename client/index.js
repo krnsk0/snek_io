@@ -2,15 +2,15 @@
 /* global io */
 import { setUpKeyListeners } from './keypress';
 
-// set up socket
-const socket = io();
-
 // constants
 const BOARD_WIDTH = 80;
 const BOARD_HEIGHT = 60;
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 600;
 const CELL_SIZE = 10;
+
+// set up socket
+const socket = io();
 
 // initialize keypress module
 setUpKeyListeners(socket);

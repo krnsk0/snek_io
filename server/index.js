@@ -4,13 +4,13 @@ const path = require('path');
 const socketio = require('socket.io');
 const morgan = require('morgan');
 const startGame = require('./game');
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
 // initialize express
 const app = express();
 
 // logging middleware
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, '.', 'static')));
@@ -21,7 +21,6 @@ app.use('*', (req, res) => {
 });
 
 // serve static files and index.html for anything else
-
 const server = app.listen(PORT, () => console.log(`Serving on ${PORT}`));
 
 // initialize socket.io
@@ -30,8 +29,9 @@ const io = socketio(server);
 // log connections & disconnections
 io.on('connection', socket => {
   console.log('connection:', socket.id);
-  socket.on('disconnect', () => {
+  socket.on('disconnect', reason => {
     console.log('disconnection:', socket.id);
+    console.log('reason:', reason);
   });
 });
 
