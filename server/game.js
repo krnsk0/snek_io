@@ -31,7 +31,8 @@ const newPlayerFactory = id => {
     y,
     direction: false,
     hue: Math.floor(Math.random() * 360),
-    tail: []
+    tail: [],
+    alive: true
   };
 };
 
@@ -52,8 +53,7 @@ const startGame = io => {
 
     // destroy player on disconnect
     socket.on('disconnect', () => {
-      map[player.y][player.x] = 0;
-      state.players = state.players.filter(p => socket.id !== p.id);
+      player.alive = false;
     });
   });
 
@@ -75,18 +75,40 @@ const startGame = io => {
         player.x += vectors[player.direction][0];
         player.y += vectors[player.direction][1];
       }
+
+      // check for wall death
+      if (
+        player.x < 0 ||
+        player.y < 0 ||
+        player.x === BOARD_WIDTH ||
+        player.y === BOARD_HEIGHT
+      ) {
+        player.alive = false;
+      }
       return player;
     });
 
     // update the map
     state.players.forEach(player => {
-      // make the last player position the tail color
-      const lastHead = player.tail[player.tail.length - 1];
-      map[lastHead[1]][lastHead[0]] = `hsl(${player.hue}, 40%, 40%)`;
+      // for living players...
+      if (player.alive) {
+        // make the last player position the tail color
+        const lastHead = player.tail[player.tail.length - 1];
+        map[lastHead[1]][lastHead[0]] = `hsl(${player.hue}, 40%, 30%)`;
 
-      // render player heads
-      map[player.y][player.x] = `hsl(${player.hue}, 100%, 50%)`;
+        // render player heads
+        map[player.y][player.x] = `hsl(${player.hue}, 100%, 50%)`;
+      }
+      // erase dead players' tails
+      if (!player.alive) {
+        player.tail.forEach(segment => {
+          map[segment[1]][segment[0]] = 0;
+        });
+      }
     });
+
+    // delete dead players from the state
+    state.players = state.players.filter(player => player.alive);
 
     io.emit('sync_map', map);
   }, 1000 / UPDATES_PER_SECOND);
