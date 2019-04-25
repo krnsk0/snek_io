@@ -122,9 +122,27 @@ const startGame = io => {
         ) {
           player.alive = false;
         }
-        // check for tail collusions
-        if (player.alive && map[player.y][player.x].color !== 0) {
-          player.alive = false;
+
+        // check for head collisions with all other players
+        const filteredPlayerList = state.players.filter(
+          p => p.id !== player.id
+        );
+        for (let otherPlayer of filteredPlayerList) {
+          if (player.x === otherPlayer.x && player.y === otherPlayer.y) {
+            player.alive = false;
+            otherPlayer.alive = false;
+            break;
+          }
+        }
+
+        // check for tail collisions with all players including curent
+        for (let otherPlayer of state.players) {
+          for (let tailSegment of otherPlayer.tail) {
+            if (player.x === tailSegment[0] && player.y === tailSegment[1]) {
+              player.alive = false;
+              break;
+            }
+          }
         }
       }
 

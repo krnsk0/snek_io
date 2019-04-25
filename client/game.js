@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* global io */
 import { setUpKeyListeners } from './keypress';
 
