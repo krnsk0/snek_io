@@ -1,5 +1,8 @@
 /* eslint-disable complexity */
 /* eslint-disable function-paren-newline */
+const Filter = require('bad-words');
+const profanityFilter = new Filter();
+
 // constants
 const BOARD_WIDTH = 80;
 const BOARD_HEIGHT = 60;
@@ -79,7 +82,9 @@ const startGame = io => {
 
     // name listener
     socket.on('set_name', name => {
-      player.name = name;
+      // trim to 16 chars
+      const cleaned = profanityFilter.clean(name);
+      player.name = cleaned.substring(0, 16);
     });
 
     // destroy player on disconnect

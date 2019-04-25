@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.4.3",
+    "bad-words": "^3.0.2",
     "express": "^4.16.4",
     "morgan": "^1.9.1",
     "socket.io": "^2.2.0"
