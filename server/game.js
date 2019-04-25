@@ -66,8 +66,8 @@ const startGame = io => {
         down: [0, 1]
       };
       if (player.direction) {
-        player.x = player.x + vectors[player.direction][0];
-        player.y = player.y + vectors[player.direction][1];
+        player.x += vectors[player.direction][0];
+        player.y += vectors[player.direction][1];
       }
       return player;
     });
