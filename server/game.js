@@ -36,6 +36,15 @@ const newPlayerFactory = id => {
   };
 };
 
+const restartPlayer = player => {
+  const [x, y] = randomCell();
+  player.x = x;
+  player.y = y;
+  player.tail = [];
+  player.alive = true;
+  return player;
+};
+
 const startGame = io => {
   // on first connection
   io.on('connection', socket => {
@@ -86,7 +95,7 @@ const startGame = io => {
           player.alive = false;
         }
         // check for tail collusions
-        if (map[player.y][player.x] !== 0) {
+        if (player.alive && map[player.y][player.x] !== 0) {
           player.alive = false;
         }
       }
@@ -114,8 +123,10 @@ const startGame = io => {
       }
     });
 
-    // delete dead players from the state
-    state.players = state.players.filter(player => player.alive);
+    // restart dead players
+    state.players = state.players.map(player =>
+      player.alive ? player : restartPlayer(player)
+    );
 
     // send the map to clients
     io.emit('sync_map', map);

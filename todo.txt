@@ -1,5 +1,2 @@
-
-players die upon hitting any tails
-restarts dead players on death with same color
 makes it so it is impossible to stop moving once started
 sets up heroku deployment
