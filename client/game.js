@@ -72,7 +72,7 @@ const startGame = name => {
     let delta = newTime - time;
     time = newTime;
     deltas.push(delta);
-    if (deltas.length >= 50) {
+    if (deltas.length >= 20) {
       let avg = Math.floor(
         deltas.reduce((acc, d) => acc + d, 0) / deltas.length
       );
