@@ -1,6 +1,4 @@
 /* eslint-disable complexity */
-// eslint-disable-next-line no-undef
-const socket = io();
 
 /********************
  *  KEYPRESS LOGIC
@@ -19,50 +17,52 @@ const getDirectionFromStack = list => {
   }
 };
 
-// keydowns push to list
-document.addEventListener('keydown', evt => {
-  // prevent defaults for arrow keys
-  if (evt.keyCode >= 37 && evt.keyCode <= 40) {
-    evt.preventDefault();
-    if (evt.repeat === false) {
+export const setUpKeyListeners = socket => {
+  // keydowns push to list
+  document.addEventListener('keydown', evt => {
+    // prevent defaults for arrow keys
+    if (evt.keyCode >= 37 && evt.keyCode <= 40) {
+      evt.preventDefault();
+      if (evt.repeat === false) {
+        if (evt.keyCode === 38) {
+          // up
+          dirList.push('up');
+        } else if (evt.keyCode === 40) {
+          // down
+          dirList.push('down');
+        } else if (evt.keyCode === 37) {
+          // left
+          dirList.push('left');
+        } else if (evt.keyCode === 39) {
+          // right
+          dirList.push('right');
+        }
+        direction = getDirectionFromStack(dirList);
+        socket.emit('direction', direction);
+      }
+    }
+  });
+
+  // keyups remove their key from the list
+  document.addEventListener('keyup', evt => {
+    // prevent defaults for arrow keys
+    if (evt.keyCode >= 37 && evt.keyCode <= 40) {
+      evt.preventDefault();
       if (evt.keyCode === 38) {
         // up
-        dirList.push('up');
+        dirList = dirList.filter(dir => dir !== 'up');
       } else if (evt.keyCode === 40) {
         // down
-        dirList.push('down');
+        dirList = dirList.filter(dir => dir !== 'down');
       } else if (evt.keyCode === 37) {
         // left
-        dirList.push('left');
+        dirList = dirList.filter(dir => dir !== 'left');
       } else if (evt.keyCode === 39) {
         // right
-        dirList.push('right');
+        dirList = dirList.filter(dir => dir !== 'right');
       }
       direction = getDirectionFromStack(dirList);
       socket.emit('direction', direction);
     }
-  }
-});
-
-// keyups remove their key from the list
-document.addEventListener('keyup', evt => {
-  // prevent defaults for arrow keys
-  if (evt.keyCode >= 37 && evt.keyCode <= 40) {
-    evt.preventDefault();
-    if (evt.keyCode === 38) {
-      // up
-      dirList = dirList.filter(dir => dir !== 'up');
-    } else if (evt.keyCode === 40) {
-      // down
-      dirList = dirList.filter(dir => dir !== 'down');
-    } else if (evt.keyCode === 37) {
-      // left
-      dirList = dirList.filter(dir => dir !== 'left');
-    } else if (evt.keyCode === 39) {
-      // right
-      dirList = dirList.filter(dir => dir !== 'right');
-    }
-    direction = getDirectionFromStack(dirList);
-    socket.emit('direction', direction);
-  }
-});
+  });
+};

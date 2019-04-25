@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(26, 26, 26);
+  background-color: rgb(0, 0, 0);
   margin: 0px;
 }
 .flex-container {
@@ -12,4 +12,5 @@ body {
 }
 canvas {
   margin: auto;
+  border: 10px solid grey;
 }
