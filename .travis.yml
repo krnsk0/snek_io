@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 'stable'
+  - node
 cache:
   directories:
     - 'node_modules'
@@ -13,7 +13,7 @@ notifications:
 install:
   - npm ci # installs from package lock
 script:
-  - npm run start
+  - npm run build-deploy
   - rm -rf node_modules # delete node_modules before deploying, since we skip cleanup
 deploy:
   skip_cleanup: true
