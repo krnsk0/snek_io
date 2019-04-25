@@ -64,7 +64,21 @@ const startGame = name => {
   socket.emit('set_name', name);
 
   // receive and paint initial map sent by server
+
+  let time = new Date().getTime();
+  let deltas = [];
   socket.on('sync_map', map => {
+    let newTime = new Date().getTime();
+    let delta = newTime - time;
+    time = newTime;
+    deltas.push(delta);
+    if (deltas.length >= 50) {
+      let avg = Math.floor(
+        deltas.reduce((acc, d) => acc + d, 0) / deltas.length
+      );
+      console.log('avg lag:', avg);
+      deltas = [];
+    }
     renderMap(ctx, map);
   });
 };
