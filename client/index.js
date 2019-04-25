@@ -27,7 +27,9 @@ const renderMap = (ctx, map) => {
   for (let y = 0; y < map.length; y += 1) {
     for (let x = 0; x < map[0].length; x += 1) {
       const currentCell = map[y][x];
-      ctx.fillStyle = currentCell ? '#ffffff' : '#000000';
+      ctx.fillStyle = currentCell
+        ? `hsl(${currentCell}, 100%, 50%)`
+        : `#000000`;
       // the +1 allow the bg to come through as grid lines
       ctx.fillRect(
         x * CELL_SIZE + 1,

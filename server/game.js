@@ -29,7 +29,8 @@ const newPlayerFactory = id => {
     id,
     x,
     y,
-    direction: false
+    direction: false,
+    hue: Math.floor(Math.random() * 360)
   };
 };
 
@@ -74,7 +75,7 @@ const startGame = io => {
 
     // draw players
     state.players.forEach(player => {
-      map[player.y][player.x] = 1;
+      map[player.y][player.x] = player.hue;
     });
 
     io.emit('sync_map', map);
