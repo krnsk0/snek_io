@@ -4,6 +4,7 @@ const path = require('path');
 const socketio = require('socket.io');
 const morgan = require('morgan');
 const startGame = require('./game');
+const PORT = process.env.PORT || 8080;
 
 // initialize express
 const app = express();
@@ -20,7 +21,7 @@ app.use('*', (req, res) => {
 });
 
 // serve static files and index.html for anything else
-const PORT = 3000;
+
 const server = app.listen(PORT, () => console.log(`Serving on ${PORT}`));
 
 // initialize socket.io
