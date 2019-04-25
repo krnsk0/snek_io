@@ -1,2 +1,0 @@
-makes it so it is impossible to stop moving once started
-sets up heroku deployment

@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable function-paren-newline */
 // constants
 const BOARD_WIDTH = 80;
@@ -26,15 +27,17 @@ let state = gameStateFactory();
 
 const newPlayerFactory = id => {
   const [x, y] = randomCell();
-  return {
+  let player = {
     id,
     x,
     y,
     direction: false,
     hue: Math.floor(Math.random() * 360),
     tail: [],
-    alive: true
+    alive: true,
+    justSpwaned: true
   };
+  return player;
 };
 
 const restartPlayer = player => {
@@ -43,6 +46,7 @@ const restartPlayer = player => {
   player.y = y;
   player.tail = [];
   player.alive = true;
+  player.direction = false;
   return player;
 };
 
@@ -58,7 +62,10 @@ const startGame = io => {
 
     // direction listener
     socket.on('direction', dir => {
-      player.direction = dir;
+      // don't allow the player to stop once started
+      if (dir) {
+        player.direction = dir;
+      }
     });
 
     // destroy player on disconnect
