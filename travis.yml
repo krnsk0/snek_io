@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - 'stable'
+cache:
+  directories:
+    - 'node_modules'
+dist: trusty
+sudo: false
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+install:
+  - npm ci # installs from package lock
+script:
+  - npm run start
+  - rm -rf node_modules # delete node modules before deploying, since we skip cleanup
+deploy:
+  skip_cleanup: true
+  provider: heroku
+  app: sectorio
+  api_key:
+    secure: 'lG5not235gmKFgvfYHFl3tnOPJ5n2enLfdTHuwyZ+UsoMqcEAers8ohV53Ga0OLkEdlHiFDlOk13i6QgKQOnbRsKTjTIPoLC1s+UoN0yUyOkVo8Grd0Cfv6Hy/79TkL4Smm/JJg6iC2eGKO65CUmYT7CTwpb9Kh9NvuTTMOwexXSVGFjqTZJeS4plJ2rPJY2+pKvp+zPtOZLahfOqsq1uvwIoyVY56adPrrq639Ib0ApBqNQMRDUFjHP0A2bnh9U2VFrcykY1I47NpI+y2WFD6k4S1mM72QU9mfLwsTWvfmoCrIJy0y82etTxuEc0UHK3hvJpKxnPoSuwdjzze9IfVWhEyuAKFuewTkagxEBNjl9qSpoAnqtejZIxhP3jMhYqrCy/oTTCraHQ5LwNOT1YdoaDGtPoW9XnmU3R3g57q0pBTNgF5WPEVkOtDyTuMykbvNTJzwSzOSLs+KT7Q2aDKBhQhaEmTa6mH1GfvMV4M3Jzp3jmTUTIn/zPoKQ70HUj5M6jpj09bAoJla4ErYSq7qG+No1jsS0hCFzBnE4CX+WJrm4xpAbHnBT8Vuhq2zyVgLHeE3ntZMYgncEm5+Ln0diTWkgxC+Wyl6nmO/1gWF8X2Z5GtQOhM7+BStWBgm4LFA6KIBXT7KFs5vRdAno+GOkAz9idun6THZvg66lT30='
