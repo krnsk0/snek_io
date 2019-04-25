@@ -59,32 +59,39 @@ const startGame = io => {
 
   // tick
   setInterval(() => {
-    // move players
+    // process player changes
     state.players = state.players.map(player => {
       // push previous head to the tail array
       player.tail.push([player.x, player.y]);
 
-      // do the move
-      const vectors = {
-        left: [-1, 0],
-        right: [1, 0],
-        up: [0, -1],
-        down: [0, 1]
-      };
+      // if moving...
       if (player.direction) {
+        // do the move
+        const vectors = {
+          left: [-1, 0],
+          right: [1, 0],
+          up: [0, -1],
+          down: [0, 1]
+        };
         player.x += vectors[player.direction][0];
         player.y += vectors[player.direction][1];
+
+        // check for wall death
+        if (
+          player.x < 0 ||
+          player.y < 0 ||
+          player.x === BOARD_WIDTH ||
+          player.y === BOARD_HEIGHT
+        ) {
+          player.alive = false;
+        }
+        // check for tail collusions
+        if (map[player.y][player.x] !== 0) {
+          player.alive = false;
+        }
       }
 
-      // check for wall death
-      if (
-        player.x < 0 ||
-        player.y < 0 ||
-        player.x === BOARD_WIDTH ||
-        player.y === BOARD_HEIGHT
-      ) {
-        player.alive = false;
-      }
+      // check to see if we hit another payer
       return player;
     });
 
@@ -110,6 +117,7 @@ const startGame = io => {
     // delete dead players from the state
     state.players = state.players.filter(player => player.alive);
 
+    // send the map to clients
     io.emit('sync_map', map);
   }, 1000 / UPDATES_PER_SECOND);
 };

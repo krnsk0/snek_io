@@ -1,6 +1,5 @@
-add visual distinction between head and tail
 
-adds distinction between head and tail for players
-adds death on hitting screen edge
-allows players to kill other players
+players die upon hitting any tails
+restarts dead players on death with same color
+makes it so it is impossible to stop moving once started
 sets up heroku deployment
