@@ -14,7 +14,7 @@ install:
   - npm ci # installs from package lock
 script:
   - npm run start
-  - rm -rf node_modules # delete node modules before deploying, since we skip cleanup
+  - rm -rf node_modules # delete node_modules before deploying, since we skip cleanup
 deploy:
   skip_cleanup: true
   provider: heroku
