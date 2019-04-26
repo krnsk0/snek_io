@@ -79,7 +79,13 @@ const startGame = name => {
       let avgStateSize = Math.floor(
         stateSizes.reduce((acc, d) => acc + d, 0) / stateSizes.length
       );
-      console.log(`LAG: ${avgLag}ms SIZE: ${avgStateSize} bytes`);
+      console.log(
+        `%cLAG: %c${avgLag}ms%c SIZE: %c${avgStateSize} bytes`,
+        '',
+        'background-color: navy; color: white;',
+        '',
+        'background-color: darkred; color: white;'
+      );
 
       stateSizes = [];
       deltas = [];
