@@ -42,7 +42,7 @@ module.exports.startGame = io => {
   setInterval(() => {
     // process player changes
     state.players = state.players.map(player => {
-      // if alive & if moving...
+      // if moving...
       if (player.direction) {
         // push previous head to the tail array
         player.tail.push([player.x, player.y]);
@@ -64,7 +64,7 @@ module.exports.startGame = io => {
           player.x === constants.BOARD_WIDTH ||
           player.y === constants.BOARD_HEIGHT
         ) {
-          player.alive = false;
+          restartPlayer(player, state.players);
         }
 
         // check for head collisions with all other players
@@ -73,8 +73,8 @@ module.exports.startGame = io => {
         );
         for (let otherPlayer of filteredPlayerList) {
           if (player.x === otherPlayer.x && player.y === otherPlayer.y) {
-            player.alive = false;
-            otherPlayer.alive = false;
+            restartPlayer(player, state.players);
+            restartPlayer(otherPlayer, state.players);
             break;
           }
         }
@@ -83,22 +83,16 @@ module.exports.startGame = io => {
         for (let otherPlayer of state.players) {
           for (let tailSegment of otherPlayer.tail) {
             if (player.x === tailSegment[0] && player.y === tailSegment[1]) {
-              player.alive = false;
+              restartPlayer(player, state.players);
               break;
             }
           }
         }
       }
 
-      // check to see if we hit another payer
+      // return the update player
       return player;
-    });
-
-    // restart dead players
-    state.players = state.players.map(player => {
-      if (player.alive) return player;
-      else return restartPlayer(player, state.players);
-    });
+    }); // end of state.players.map()
 
     // add a timestamp to the state
     // TODO

@@ -26,6 +26,5 @@ module.exports.restartPlayer = (player, players) => {
   player.y = cell[1];
   player.tail = [];
   player.direction = false;
-  player.alive = true;
   return player;
 };

@@ -19,21 +19,18 @@ const getMapFromState = state => {
 
   // update the map
   state.players.forEach(player => {
-    // for living players...
-    if (player.alive) {
-      // render player heads
-      map[player.y][player.x].color = `hsl(${player.hue}, 100%, 50%)`;
+    // render player heads
+    map[player.y][player.x].color = `hsl(${player.hue}, 100%, 50%)`;
 
-      // render player name
-      map[player.y][player.x].name = player.name;
+    // render player name
+    map[player.y][player.x].name = player.name;
 
-      // render player tail
-      player.tail.forEach(tailSegment => {
-        map[tailSegment[1]][tailSegment[0]].color = `hsl(${
-          player.hue
-        }, 40%, 30%)`;
-      });
-    }
+    // render player tail
+    player.tail.forEach(tailSegment => {
+      map[tailSegment[1]][tailSegment[0]].color = `hsl(${
+        player.hue
+      }, 40%, 30%)`;
+    });
   });
 
   return map;
