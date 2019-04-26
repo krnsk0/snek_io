@@ -2,7 +2,7 @@ const constants = require('../shared/constants');
 
 const renderView = (ctx, view) => {
   ctx.fillStyle = '#222222';
-  ctx.fillRect(0, 0, constants.CANVAS_WIDTH, constants.CANVAS_HEIGHT);
+  ctx.fillRect(0, 0, constants.CANVAS_WIDTH_PX, constants.CANVAS_HEIGHT_PX);
 
   for (let y = 0; y < view.length; y += 1) {
     for (let x = 0; x < view[0].length; x += 1) {

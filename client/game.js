@@ -8,8 +8,8 @@ import renderView from './renderView';
 
 // initialize canvas
 const canvas = document.getElementById('canvas');
-canvas.width = constants.CANVAS_WIDTH;
-canvas.height = constants.CANVAS_HEIGHT;
+canvas.width = constants.CANVAS_WIDTH_PX;
+canvas.height = constants.CANVAS_HEIGHT_PX;
 const ctx = canvas.getContext('2d');
 ctx.font = '20px Courier';
 
