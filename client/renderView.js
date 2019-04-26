@@ -1,12 +1,12 @@
 const constants = require('../shared/constants');
 
-const renderMap = (ctx, map) => {
+const renderView = (ctx, view) => {
   ctx.fillStyle = '#222222';
   ctx.fillRect(0, 0, constants.CANVAS_WIDTH, constants.CANVAS_HEIGHT);
 
-  for (let y = 0; y < map.length; y += 1) {
-    for (let x = 0; x < map[0].length; x += 1) {
-      const currentCell = map[y][x];
+  for (let y = 0; y < view.length; y += 1) {
+    for (let x = 0; x < view[0].length; x += 1) {
+      const currentCell = view[y][x];
 
       // the +1 allows the bg to come through as grid lines
       ctx.fillStyle = currentCell.color ? currentCell.color : `#000000`;
@@ -32,4 +32,4 @@ const renderMap = (ctx, map) => {
   }
 };
 
-export default renderMap;
+export default renderView;

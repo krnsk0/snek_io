@@ -2,9 +2,9 @@
 /* global io */
 const constants = require('../shared/constants');
 import { setUpKeyListeners } from './keypress';
-import getMapFromState from './getMapFromState';
+import getViewFromState from './getViewFromState';
 import { printKBPS } from './utils';
-import renderMap from './renderMap';
+import renderView from './renderView';
 
 // initialize canvas
 const canvas = document.getElementById('canvas');
@@ -34,11 +34,11 @@ const startGame = name => {
 
   // listen for state updates from the server
   socket.on(constants.MSG.SEND_STATE, state => {
-    // build a map from the state
-    const map = getMapFromState(state);
+    // build a view from the state
+    const view = getViewFromState(state);
 
-    // render the map
-    renderMap(ctx, map);
+    // render the view
+    renderView(ctx, view);
   });
 };
 
