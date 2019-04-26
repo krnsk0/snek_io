@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 /* global io */
-import { setUpKeyListeners } from './keypress';
 const constants = require('../shared/constants');
+import { setUpKeyListeners } from './keypress';
 import getMapFromState from './getMapFromState';
 import { getUTF8Size } from './utils';
 import renderMap from './renderMap';
@@ -15,6 +15,8 @@ ctx.font = '20px Courier';
 
 const startGame = name => {
   const socket = io();
+
+  // turn on the key listeners
   setUpKeyListeners(socket);
 
   // save this connection's id
@@ -27,8 +29,16 @@ const startGame = name => {
   // send the user's player name
   socket.emit(constants.MSG.SET_NAME, name);
 
-  // receive and paint initial map sent by server
+  // listen for state updates from the server
+  socket.on(constants.MSG.SEND_STATE, state => {
+    // build a map from the state
+    const map = getMapFromState(state);
 
+    // render the map
+    renderMap(ctx, map);
+  });
+
+  // debugging stuff
   let time = new Date().getTime();
   let deltas = [];
   let stateSizes = [];
@@ -38,28 +48,25 @@ const startGame = name => {
     time = newTime;
     deltas.push(delta);
     stateSizes.push(getUTF8Size(state));
-    if (deltas.length >= 20) {
+    // every second print some stuff
+    if (deltas.length >= constants.SERVER_TICKS_PER_SECOND) {
       let avgLag = Math.floor(
         deltas.reduce((acc, d) => acc + d, 0) / deltas.length
       );
 
-      let avgStateSize = Math.floor(
-        stateSizes.reduce((acc, d) => acc + d, 0) / stateSizes.length
-      );
+      let stateKilobytesPerSecond = (
+        stateSizes.reduce((acc, d) => acc + d, 0) / 1000
+      ).toFixed(2);
       console.log(
-        `%cLAG: %c${avgLag}ms%c SIZE: %c${avgStateSize} bytes`,
+        `%cAVG DELTA TIME: %c${avgLag}ms%c \nSIZE: %c${stateKilobytesPerSecond} kbps`,
         '',
         'background-color: navy; color: white;',
         '',
         'background-color: darkred; color: white;'
       );
-
       stateSizes = [];
       deltas = [];
     }
-    // console.log('state', state);
-    const map = getMapFromState(state);
-    renderMap(ctx, map);
   });
 };
 
