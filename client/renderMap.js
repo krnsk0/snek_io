@@ -18,7 +18,6 @@ const renderMap = (ctx, map) => {
       );
 
       // draw name
-
       if (currentCell.name) {
         const name = currentCell.name;
         const length = name.length;

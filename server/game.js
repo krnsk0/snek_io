@@ -94,9 +94,6 @@ module.exports.startGame = io => {
       return player;
     }); // end of state.players.map()
 
-    // add a timestamp to the state
-    // TODO
-
     // send state to clients
     io.emit(constants.MSG.SEND_STATE, state);
   }, 1000 / constants.SERVER_TICKS_PER_SECOND);
