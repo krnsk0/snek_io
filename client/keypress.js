@@ -1,8 +1,5 @@
 /* eslint-disable complexity */
-
-/********************
- *  KEYPRESS LOGIC
- ********************/
+const constants = require('../shared/constants');
 
 let dirList = [];
 export let direction = false;
@@ -38,7 +35,7 @@ export const setUpKeyListeners = socket => {
           dirList.push('right');
         }
         direction = getDirectionFromStack(dirList);
-        socket.emit('direction', direction);
+        socket.emit(constants.MSG.DIRECTION, direction);
       }
     }
   });
@@ -62,7 +59,7 @@ export const setUpKeyListeners = socket => {
         dirList = dirList.filter(dir => dir !== 'right');
       }
       direction = getDirectionFromStack(dirList);
-      socket.emit('direction', direction);
+      socket.emit(constants.MSG.DIRECTION, direction);
     }
   });
 };

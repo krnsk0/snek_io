@@ -2,6 +2,7 @@
 /* global io */
 import { setUpKeyListeners } from './keypress';
 const constants = require('../shared/constants');
+import getMapFromState from './getMapFromState';
 
 // initialize canvas
 const canvas = document.getElementById('canvas');
@@ -50,19 +51,19 @@ const startGame = name => {
 
   // save this connection's id
   let id = '';
-  socket.on('connect', () => {
+  socket.on(constants.MSG.CONNECT, () => {
     id = socket.id;
     console.log('connection id:', id);
   });
 
   // send the user's player name
-  socket.emit('set_name', name);
+  socket.emit(constants.MSG.SET_NAME, name);
 
   // receive and paint initial map sent by server
 
   let time = new Date().getTime();
   let deltas = [];
-  socket.on('sync_map', map => {
+  socket.on(constants.MSG.SEND_STATE, state => {
     let newTime = new Date().getTime();
     let delta = newTime - time;
     time = newTime;
@@ -74,6 +75,8 @@ const startGame = name => {
       console.log('avg lag:', avg);
       deltas = [];
     }
+    // console.log('state', state);
+    const map = getMapFromState(state);
     renderMap(ctx, map);
   });
 };

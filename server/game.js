@@ -2,31 +2,23 @@
 /* eslint-disable function-paren-newline */
 const Filter = require('bad-words');
 const constants = require('../shared/constants');
-const {
-  mapFactory,
-  gameStateFactory,
-  newPlayerFactory
-} = require('./factories');
+const { gameStateFactory, newPlayerFactory } = require('./factories');
 const { restartPlayer } = require('./restartPlayer');
 
 // initialize some things
-const map = mapFactory();
 let state = gameStateFactory();
 const profanityFilter = new Filter();
 
-//
-const startGame = io => {
+// initialize the game
+module.exports.startGame = io => {
   // on first connection
-  io.on('connection', socket => {
-    // send the current map state
-    socket.emit('sync_map', map);
-
+  io.on(constants.MSG.CONNECTION, socket => {
     // make a new player and add to the players array
     const player = newPlayerFactory(socket.id);
     state.players.push(player);
 
     // direction listener
-    socket.on('direction', dir => {
+    socket.on(constants.MSG.DIRECTION, dir => {
       // don't allow the player to stop once started
       if (dir) {
         player.direction = dir;
@@ -34,16 +26,15 @@ const startGame = io => {
     });
 
     // name listener
-    socket.on('set_name', name => {
+    socket.on(constants.MSG.SET_NAME, name => {
       // trim to 16 chars
       const cleaned = profanityFilter.clean(name);
       player.name = cleaned.substring(0, 16);
     });
 
     // destroy player on disconnect
-    socket.on('disconnect', () => {
-      console.log('killing player');
-      player.connected = false;
+    socket.on(constants.MSG.DISCONNECT, () => {
+      state.players = state.players.filter(player => player.id !== socket.id);
     });
   });
 
@@ -51,11 +42,11 @@ const startGame = io => {
   setInterval(() => {
     // process player changes
     state.players = state.players.map(player => {
-      // push previous head to the tail array
-      player.tail.push([player.x, player.y]);
-
-      // if moving...
+      // if alive & if moving...
       if (player.direction) {
+        // push previous head to the tail array
+        player.tail.push([player.x, player.y]);
+
         // do the move
         const vectors = {
           left: [-1, 0],
@@ -103,42 +94,16 @@ const startGame = io => {
       return player;
     });
 
-    // update the map
-    state.players.forEach(player => {
-      // for living players...
-      if (player.alive && player.connected) {
-        // make the last player position the tail color and turn off name
-        const lastHead = player.tail[player.tail.length - 1];
-        map[lastHead[1]][lastHead[0]].color = `hsl(${player.hue}, 40%, 30%)`;
-        map[lastHead[1]][lastHead[0]].name = '';
-
-        // render player heads
-        map[player.y][player.x].color = `hsl(${player.hue}, 100%, 50%)`;
-        map[player.y][player.x].name = player.name;
-      }
-      // erase dead players' tails
-      if (!player.alive || !player.connected) {
-        player.tail.forEach(segment => {
-          map[segment[1]][segment[0]].color = 0;
-          map[segment[1]][segment[0]].name = '';
-        });
-      }
-    });
-
-    // delete disconnected players
-    state.players = state.players.filter(player => player.connected);
-
     // restart dead players
     state.players = state.players.map(player => {
       if (player.alive) return player;
       else return restartPlayer(player, state.players);
     });
 
-    // send the map to clients
-    // callback kill players if messages not received
-    io.emit('sync_map', map);
+    // add a timestamp to the state
+    // TODO
+
+    // send state to clients
+    io.emit(constants.MSG.SEND_STATE, state);
   }, 1000 / constants.SERVER_TICKS_PER_SECOND);
 };
-
-// export
-module.exports = startGame;

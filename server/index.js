@@ -1,9 +1,10 @@
 /* eslint-disable function-paren-newline */
+const constants = require('../shared/constants');
 const express = require('express');
 const path = require('path');
 const socketio = require('socket.io');
 const morgan = require('morgan');
-const startGame = require('./game');
+const { startGame } = require('./game');
 const PORT = process.env.PORT || 3000;
 
 // initialize express
@@ -27,9 +28,9 @@ const server = app.listen(PORT, () => console.log(`Serving on ${PORT}`));
 const io = socketio(server);
 
 // log connections & disconnections
-io.on('connection', socket => {
+io.on(constants.MSG.CONNECTION, socket => {
   console.log('connection:', socket.id);
-  socket.on('disconnect', reason => {
+  socket.on(constants.MSG.DISCONNECT, reason => {
     console.log('disconnection:', socket.id);
     console.log('reason:', reason);
   });

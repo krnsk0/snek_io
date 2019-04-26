@@ -4,5 +4,13 @@ module.exports = Object.freeze({
   SERVER_TICKS_PER_SECOND: 10,
   CANVAS_WIDTH: 800,
   CANVAS_HEIGHT: 600,
-  CELL_SIZE: 10
+  CELL_SIZE: 10,
+  MSG: {
+    CONNECTION: 'connection',
+    DISCONNECT: 'disconnect',
+    CONNECT: 'connect',
+    SEND_STATE: 'SEND_STATE',
+    SET_NAME: 'SET_NAME',
+    DIRECTION: 'DIRECTION'
+  }
 });
