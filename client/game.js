@@ -30,6 +30,8 @@ const startGame = name => {
   socket.emit(constants.MSG.SET_NAME, name);
 
   // print kbps on state updates
+  window.kbps = false;
+  console.log("set 'window.kbps = true' to print data rate");
   printKBPS(socket);
 
   // listen for state updates from the server

@@ -26,10 +26,14 @@ export const printKBPS = socket => {
       let stateKilobytesPerSecond = (
         stateSizes.reduce((acc, d) => acc + d, 0) / 1000
       ).toFixed(2);
-      console.log(
-        `kbps: %c${stateKilobytesPerSecond} kbps`,
-        'background-color: navy; color: white;'
-      );
+
+      // only print if we have flag set
+      if (window.kbps === true) {
+        console.log(
+          `%c${stateKilobytesPerSecond} kbps`,
+          'background-color: navy; color: white;'
+        );
+      }
       stateSizes = [];
     }
   });
