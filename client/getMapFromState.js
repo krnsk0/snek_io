@@ -1,15 +1,15 @@
 const constants = require('../shared/constants');
 
-const emptyMapFactory = () => {
-  const emptyCellFactory = () => {
-    return {
-      color: 0,
-      name: ''
-    };
+const emptyMapCellFactory = () => {
+  return {
+    color: 0,
+    name: ''
   };
+};
 
+const emptyMapFactory = () => {
   return Array.from({ length: constants.BOARD_HEIGHT }, () =>
-    Array.from({ length: constants.BOARD_WIDTH }, () => emptyCellFactory())
+    Array.from({ length: constants.BOARD_WIDTH }, () => emptyMapCellFactory())
   );
 };
 
