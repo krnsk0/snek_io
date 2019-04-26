@@ -1,83 +1,20 @@
 /* eslint-disable complexity */
 /* eslint-disable function-paren-newline */
 const Filter = require('bad-words');
-const profanityFilter = new Filter();
 const constants = require('../shared/constants');
+const {
+  mapFactory,
+  gameStateFactory,
+  newPlayerFactory
+} = require('./factories');
+const { restartPlayer } = require('./restartPlayer');
 
-const mapFactory = () => {
-  const emptyCellFactory = () => {
-    return {
-      color: 0,
-      name: ''
-    };
-  };
-
-  return Array.from({ length: constants.BOARD_HEIGHT }, () =>
-    Array.from({ length: constants.BOARD_WIDTH }, () => emptyCellFactory())
-  );
-};
+// initialize some things
 const map = mapFactory();
-
-const randomCell = () => {
-  const x = Math.floor(Math.random() * constants.BOARD_WIDTH);
-  const y = Math.floor(Math.random() * constants.BOARD_HEIGHT);
-  return [x, y];
-};
-
-const isCellOccupied = (cell, players) => {
-  const [x, y] = [cell[0], cell[1]];
-  for (let player of players) {
-    // check for head collisions
-    if (x === player.x && y === player.y) {
-      return true;
-    }
-    // check for tail collisions
-    for (let tailSegment of player.tail) {
-      if (x === tailSegment[0] && y === tailSegment[1]) {
-        return true;
-      }
-    }
-    return false;
-  }
-};
-
-const gameStateFactory = () => {
-  return {
-    players: []
-  };
-};
 let state = gameStateFactory();
+const profanityFilter = new Filter();
 
-const newPlayerFactory = id => {
-  const [x, y] = randomCell();
-  let player = {
-    id,
-    x,
-    y,
-    direction: false,
-    hue: Math.floor(Math.random() * 360),
-    tail: [],
-    alive: true,
-    justSpwaned: true,
-    connected: true,
-    name: ''
-  };
-  return player;
-};
-
-const restartPlayer = (player, players) => {
-  let cell = randomCell();
-  while (isCellOccupied(cell, players)) {
-    cell = randomCell();
-  }
-  player.x = cell[0];
-  player.y = cell[1];
-  player.tail = [];
-  player.alive = true;
-  player.direction = false;
-  return player;
-};
-
+//
 const startGame = io => {
   // on first connection
   io.on('connection', socket => {
