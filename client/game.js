@@ -1,18 +1,12 @@
 /* eslint-disable no-shadow */
 /* global io */
 import { setUpKeyListeners } from './keypress';
-
-// constants
-const BOARD_WIDTH = 80;
-const BOARD_HEIGHT = 60;
-const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 600;
-const CELL_SIZE = 10;
+const constants = require('../shared/constants');
 
 // initialize canvas
 const canvas = document.getElementById('canvas');
-canvas.width = CANVAS_WIDTH;
-canvas.height = CANVAS_HEIGHT;
+canvas.width = constants.CANVAS_WIDTH;
+canvas.height = constants.CANVAS_HEIGHT;
 const ctx = canvas.getContext('2d');
 ctx.font = '20px Courier';
 
@@ -28,10 +22,10 @@ const renderMap = (ctx, map) => {
       // the +1 allows the bg to come through as grid lines
       ctx.fillStyle = currentCell.color ? currentCell.color : `#000000`;
       ctx.fillRect(
-        x * CELL_SIZE + 1,
-        y * CELL_SIZE + 1,
-        CELL_SIZE - 1,
-        CELL_SIZE - 1
+        x * constants.CELL_SIZE + 1,
+        y * constants.CELL_SIZE + 1,
+        constants.CELL_SIZE - 1,
+        constants.CELL_SIZE - 1
       );
 
       // draw name
@@ -42,8 +36,8 @@ const renderMap = (ctx, map) => {
         ctx.fillStyle = 'white';
         ctx.fillText(
           currentCell.name,
-          x * CELL_SIZE - 10 * (length / 2),
-          y * CELL_SIZE - 10
+          x * constants.CELL_SIZE - 10 * (length / 2),
+          y * constants.CELL_SIZE - 10
         );
       }
     }
