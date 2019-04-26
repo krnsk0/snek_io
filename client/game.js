@@ -3,6 +3,7 @@
 import { setUpKeyListeners } from './keypress';
 const constants = require('../shared/constants');
 import getMapFromState from './getMapFromState';
+import { getUTF8Size } from './utils';
 
 // initialize canvas
 const canvas = document.getElementById('canvas');
@@ -63,16 +64,24 @@ const startGame = name => {
 
   let time = new Date().getTime();
   let deltas = [];
+  let stateSizes = [];
   socket.on(constants.MSG.SEND_STATE, state => {
     let newTime = new Date().getTime();
     let delta = newTime - time;
     time = newTime;
     deltas.push(delta);
+    stateSizes.push(getUTF8Size(state));
     if (deltas.length >= 20) {
-      let avg = Math.floor(
+      let avgLag = Math.floor(
         deltas.reduce((acc, d) => acc + d, 0) / deltas.length
       );
-      console.log('avg lag:', avg);
+
+      let avgStateSize = Math.floor(
+        stateSizes.reduce((acc, d) => acc + d, 0) / stateSizes.length
+      );
+      console.log(`LAG: ${avgLag}ms SIZE: ${avgStateSize} bytes`);
+
+      stateSizes = [];
       deltas = [];
     }
     // console.log('state', state);

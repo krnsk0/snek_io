@@ -15,7 +15,6 @@ module.exports.newPlayerFactory = id => {
     direction: false,
     hue: Math.floor(Math.random() * 360),
     tail: [],
-    justSpwaned: true,
     name: ''
   };
   return player;

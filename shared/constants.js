@@ -1,7 +1,7 @@
 module.exports = Object.freeze({
   BOARD_WIDTH: 80,
   BOARD_HEIGHT: 60,
-  SERVER_TICKS_PER_SECOND: 30,
+  SERVER_TICKS_PER_SECOND: 20,
   CANVAS_WIDTH: 800,
   CANVAS_HEIGHT: 600,
   CELL_SIZE: 10,
@@ -9,8 +9,8 @@ module.exports = Object.freeze({
     CONNECTION: 'connection',
     DISCONNECT: 'disconnect',
     CONNECT: 'connect',
-    SEND_STATE: 'SEND_STATE',
-    SET_NAME: 'SET_NAME',
-    DIRECTION: 'DIRECTION'
+    SEND_STATE: 'SS',
+    SET_NAME: 'SN',
+    DIRECTION: 'D'
   }
 });
