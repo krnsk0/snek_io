@@ -2,11 +2,7 @@
 /* eslint-disable function-paren-newline */
 const Filter = require('bad-words');
 const profanityFilter = new Filter();
-
-// constants
-const BOARD_WIDTH = 80;
-const BOARD_HEIGHT = 60;
-const UPDATES_PER_SECOND = 10;
+const constants = require('../shared/constants');
 
 const mapFactory = () => {
   const emptyCellFactory = () => {
@@ -16,15 +12,15 @@ const mapFactory = () => {
     };
   };
 
-  return Array.from({ length: BOARD_HEIGHT }, () =>
-    Array.from({ length: BOARD_WIDTH }, () => emptyCellFactory())
+  return Array.from({ length: constants.BOARD_HEIGHT }, () =>
+    Array.from({ length: constants.BOARD_WIDTH }, () => emptyCellFactory())
   );
 };
 const map = mapFactory();
 
 const randomCell = () => {
-  const x = Math.floor(Math.random() * BOARD_WIDTH);
-  const y = Math.floor(Math.random() * BOARD_HEIGHT);
+  const x = Math.floor(Math.random() * constants.BOARD_WIDTH);
+  const y = Math.floor(Math.random() * constants.BOARD_HEIGHT);
   return [x, y];
 };
 
@@ -137,8 +133,8 @@ const startGame = io => {
         if (
           player.x < 0 ||
           player.y < 0 ||
-          player.x === BOARD_WIDTH ||
-          player.y === BOARD_HEIGHT
+          player.x === constants.BOARD_WIDTH ||
+          player.y === constants.BOARD_HEIGHT
         ) {
           player.alive = false;
         }
@@ -204,7 +200,7 @@ const startGame = io => {
     // send the map to clients
     // callback kill players if messages not received
     io.emit('sync_map', map);
-  }, 1000 / UPDATES_PER_SECOND);
+  }, 1000 / constants.SERVER_TICKS_PER_SECOND);
 };
 
 // export
