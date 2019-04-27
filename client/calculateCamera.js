@@ -5,6 +5,7 @@ let CAMERA_WIDTH;
 let CAMERA_HEIGHT;
 let BASELINE_HEIGHT_CELLS = 45;
 let BASELINE_WIDTH_CELLS = Math.ceil(BASELINE_HEIGHT_CELLS * constants.ZOOM);
+let ZOOM_ADJUSTMENT = 0.6;
 
 // changes stuff on window resize event
 window.addEventListener('resize', () => {
@@ -12,16 +13,15 @@ window.addEventListener('resize', () => {
     Math.max(
       window.innerHeight / BASELINE_HEIGHT_CELLS,
       window.innerWidth / BASELINE_WIDTH_CELLS
-    )
+    ) * ZOOM_ADJUSTMENT
   );
 
-  CAMERA_WIDTH = Math.min(
-    Math.floor(window.innerWidth / CELL_SIZE),
-    BASELINE_WIDTH_CELLS
-  );
+  CAMERA_WIDTH =
+    Math.min(Math.floor(window.innerWidth / CELL_SIZE), BASELINE_WIDTH_CELLS) *
+    (1 / ZOOM_ADJUSTMENT);
   CAMERA_HEIGHT = Math.min(
     Math.floor(window.innerHeight / CELL_SIZE),
-    BASELINE_HEIGHT_CELLS
+    BASELINE_HEIGHT_CELLS * (1 / ZOOM_ADJUSTMENT)
   );
 });
 
