@@ -1,4 +1,5 @@
 const constants = require('../shared/constants');
+import { calculateCameraWidth, calculateCameraHeight } from './calculateCamera';
 
 const emptyViewFactory = () => {
   return Array.from({ length: constants.MAP_HEIGHT }, () => {
@@ -13,10 +14,10 @@ const getViewFromState = (state, cameraX, cameraY) => {
   const view = emptyViewFactory();
 
   // set up viewport boundaries
-  const minX = cameraX - Math.floor(constants.CAMERA_WIDTH / 2);
-  const minY = cameraY - Math.floor(constants.CAMERA_HEIGHT / 2);
-  const maxX = cameraX + Math.floor(constants.CAMERA_WIDTH / 2);
-  const maxY = cameraY + Math.floor(constants.CAMERA_HEIGHT / 2);
+  const minX = cameraX - Math.floor(calculateCameraWidth() / 2);
+  const minY = cameraY - Math.floor(calculateCameraHeight() / 2);
+  const maxX = cameraX + Math.floor(calculateCameraWidth() / 2);
+  const maxY = cameraY + Math.floor(calculateCameraHeight() / 2);
   // console.log(`boundaries: ${minX} ${minY} ${maxX} ${maxY}`);
   // console.log(`cam: ${cameraX} ${cameraY}`);
 

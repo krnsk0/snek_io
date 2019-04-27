@@ -1,13 +1,24 @@
 /* eslint-disable complexity */
-const constants = require('../shared/constants');
+import {
+  calculateCameraWidth,
+  calculateCameraHeight,
+  getCellSizePx
+} from './calculateCamera';
 
-const renderView = (ctx, view) => {
+const renderView = (canvas, view) => {
+  // allow canvas resizing
+  canvas.width = calculateCameraWidth() * getCellSizePx();
+  canvas.height = calculateCameraHeight() * getCellSizePx();
+  const ctx = canvas.getContext('2d');
+  ctx.font = '20px Courier';
+
+  // clear the canvas
   ctx.fillStyle = '#222222';
   ctx.fillRect(
     0,
     0,
-    constants.CAMERA_WIDTH * constants.CELL_SIZE_PX,
-    constants.CAMERA_HEIGHT * constants.CELL_SIZE_PX
+    calculateCameraWidth() * getCellSizePx(),
+    calculateCameraHeight() * getCellSizePx()
   );
 
   for (let y = 0; y < view.length; y += 1) {
@@ -29,17 +40,17 @@ const renderView = (ctx, view) => {
       // the +1 allows the bg to come through as grid lines
       if (cell.type === 'wall') {
         ctx.fillRect(
-          x * constants.CELL_SIZE_PX,
-          y * constants.CELL_SIZE_PX,
-          constants.CELL_SIZE_PX,
-          constants.CELL_SIZE_PX
+          x * getCellSizePx(),
+          y * getCellSizePx(),
+          getCellSizePx(),
+          getCellSizePx()
         );
       } else {
         ctx.fillRect(
-          x * constants.CELL_SIZE_PX + 1,
-          y * constants.CELL_SIZE_PX + 1,
-          constants.CELL_SIZE_PX - 1,
-          constants.CELL_SIZE_PX - 1
+          x * getCellSizePx() + 1,
+          y * getCellSizePx() + 1,
+          getCellSizePx() - 1,
+          getCellSizePx() - 1
         );
       }
 
@@ -50,8 +61,8 @@ const renderView = (ctx, view) => {
         ctx.fillStyle = 'white';
         ctx.fillText(
           cell.name,
-          x * constants.CELL_SIZE_PX - 10 * (length / 2),
-          y * constants.CELL_SIZE_PX - 10
+          x * getCellSizePx() - 10 * (length / 2),
+          y * getCellSizePx() - 10
         );
       }
     }

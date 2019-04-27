@@ -13,7 +13,6 @@ body {
 }
 canvas {
   margin: auto;
-  border: 10px solid dimgrey;
 }
 .popup-container {
   position: fixed;

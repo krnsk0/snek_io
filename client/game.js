@@ -8,11 +8,8 @@ import renderView from './renderView';
 
 // initialize canvas
 const canvas = document.getElementById('canvas');
-canvas.width = constants.CAMERA_WIDTH * constants.CELL_SIZE_PX;
-canvas.height = constants.CAMERA_HEIGHT * constants.CELL_SIZE_PX;
-const ctx = canvas.getContext('2d');
-ctx.font = '20px Courier';
 
+// passed up to the html form handler
 const startGame = name => {
   const socket = io();
 
@@ -45,7 +42,7 @@ const startGame = name => {
     const view = getViewFromState(state, cameraX, cameraY);
 
     // render the view
-    renderView(ctx, view);
+    renderView(canvas, view);
   });
 };
 
