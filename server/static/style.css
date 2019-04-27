@@ -71,7 +71,7 @@ canvas {
   margin-right: 10px;
   margin-top: 10px;
   width: 200px;
-  display: inline-block;
+  display: none;
 }
 .leaderboard-container table {
   table-layout: fixed;
