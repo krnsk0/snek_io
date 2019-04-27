@@ -15,7 +15,9 @@ const renderLeaderboard = state => {
     tdNumber.innerHTML = index + 1;
     tdName.className += 'leaderboard-name';
     tdName.innerText = entry.name;
-    tdName.style.color = `hsl(${entry.hue}, 100 %, 50 %)`;
+
+    tdName.style.color = `hsl(${entry.hue}, 100%, 50%)`;
+
     tdScore.className += 'leaderboard-score';
     tdScore.innerText = entry.score;
     leaderboardRow.appendChild(tdNumber);

@@ -62,7 +62,7 @@ canvas {
 .leaderboard-container {
   background: rgba(91, 91, 91, 0.5);
   color: white;
-  font-size: 14px;
+  font-size: 16px;
   z-index: 99;
   position: fixed;
   padding: 10px;
@@ -75,6 +75,7 @@ canvas {
 }
 .leaderboard-container table {
   table-layout: fixed;
+  text-emphasis: bold;
   width: 100%;
 }
 .leaderboard-number {
