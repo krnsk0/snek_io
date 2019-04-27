@@ -1,10 +1,10 @@
 module.exports = Object.freeze({
-  BOARD_WIDTH: 80,
-  BOARD_HEIGHT: 60,
+  MAP_WIDTH: 80,
+  MAP_HEIGHT: 60,
+  CAMERA_WIDTH: 80,
+  CAMERA_HEIGHT: 60,
   SERVER_TICKS_PER_SECOND: 20,
-  CANVAS_WIDTH_PX: 800,
-  CANVAS_HEIGHT_PX: 600,
-  CELL_SIZE: 10,
+  CELL_SIZE_PX: 10,
   MSG: {
     CONNECTION: 'connection',
     DISCONNECT: 'disconnect',

@@ -8,8 +8,8 @@ const emptyViewCellFactory = () => {
 };
 
 const emptyViewFactory = () => {
-  return Array.from({ length: constants.BOARD_HEIGHT }, () =>
-    Array.from({ length: constants.BOARD_WIDTH }, () => emptyViewCellFactory())
+  return Array.from({ length: constants.MAP_HEIGHT }, () =>
+    Array.from({ length: constants.MAP_WIDTH }, () => emptyViewCellFactory())
   );
 };
 
