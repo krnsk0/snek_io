@@ -61,8 +61,8 @@ module.exports.startGame = io => {
         if (
           player.x < 0 ||
           player.y < 0 ||
-          player.x === constants.MAP_WIDTH ||
-          player.y === constants.MAP_HEIGHT
+          player.x > constants.MAP_WIDTH ||
+          player.y > constants.MAP_HEIGHT
         ) {
           restartPlayer(player, state.players);
         }
