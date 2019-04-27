@@ -1,4 +1,9 @@
 const constants = require('../shared/constants');
+/**
+ * cells all have 'type' prop
+ * cells with stuff have a 'hue' prop
+ * cell with name have a 'name' prop
+ */
 
 const emptyViewFactory = () => {
   return Array.from({ length: constants.MAP_HEIGHT }, () => {
