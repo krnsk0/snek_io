@@ -11,10 +11,18 @@ const renderView = (ctx, view) => {
 
   for (let y = 0; y < view.length; y += 1) {
     for (let x = 0; x < view[0].length; x += 1) {
-      const currentCell = view[y][x];
+      const cell = view[y][x];
 
+      if (cell.type === 'head') {
+        ctx.fillStyle = `hsl(${cell.hue}, 100%, 50%)`;
+      } else if (cell.type === 'tail') {
+        ctx.fillStyle = `hsl(${cell.hue}, 40%, 30%)`;
+      } else if (cell.type === 'empty') {
+        ctx.fillStyle = 'black';
+      }
+
+      // fill the cell
       // the +1 allows the bg to come through as grid lines
-      ctx.fillStyle = currentCell.color ? currentCell.color : `#000000`;
       ctx.fillRect(
         x * constants.CELL_SIZE_PX + 1,
         y * constants.CELL_SIZE_PX + 1,
@@ -23,12 +31,12 @@ const renderView = (ctx, view) => {
       );
 
       // draw name
-      if (currentCell.name) {
-        const name = currentCell.name;
+      if (cell.name) {
+        const name = cell.name;
         const length = name.length;
         ctx.fillStyle = 'white';
         ctx.fillText(
-          currentCell.name,
+          cell.name,
           x * constants.CELL_SIZE_PX - 10 * (length / 2),
           y * constants.CELL_SIZE_PX - 10
         );
