@@ -4,7 +4,6 @@ const Filter = require('bad-words');
 const constants = require('../shared/constants');
 const { gameStateFactory, newPlayerFactory } = require('./factories');
 const { restartPlayer } = require('./restartPlayer');
-const makeLeaderboard = require('./makeLeaderboard');
 const prepareState = require('./prepareState');
 
 // initialize some things
@@ -98,9 +97,6 @@ module.exports.startGame = io => {
       // return the update player
       return player;
     }); // end of state.players.map()
-
-    // add leaderboard
-    state = makeLeaderboard(state);
 
     // prepare state to send to client
     let preparedState = prepareState(state);

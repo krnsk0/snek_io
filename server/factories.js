@@ -22,11 +22,3 @@ module.exports.newPlayerFactory = id => {
   };
   return player;
 };
-
-module.exports.leaderBoardEntryFactory = (name, hue, score) => {
-  return {
-    name,
-    hue,
-    score
-  };
-};
