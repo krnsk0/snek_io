@@ -59,10 +59,10 @@ canvas {
   width: 60px;
   font-family: Courier, monospace;
 }
-.high-scores-container {
+.leaderboard-container {
   background: rgba(91, 91, 91, 0.5);
   color: white;
-  font-size: 16px;
+  font-size: 14px;
   z-index: 99;
   position: fixed;
   padding: 10px;
@@ -70,4 +70,21 @@ canvas {
   right: 0px;
   margin-right: 10px;
   margin-top: 10px;
+  width: 200px;
+  display: inline-block;
+}
+.leaderboard-container table {
+  table-layout: fixed;
+  width: 100%;
+}
+.leaderboard-number {
+  text-align: left;
+  width: 15%;
+}
+.leaderboard-name {
+  text-align: left;
+  width: 60%;
+}
+.leaderboard-score {
+  text-align: right;
 }

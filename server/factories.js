@@ -2,7 +2,8 @@ const { randomCell } = require('./utils');
 
 module.exports.gameStateFactory = () => {
   return {
-    players: []
+    players: [],
+    leaderboard: []
   };
 };
 
@@ -15,7 +16,16 @@ module.exports.newPlayerFactory = id => {
     direction: false,
     hue: Math.floor(Math.random() * 360),
     tail: [],
-    name: ''
+    name: '',
+    score: 0
   };
   return player;
+};
+
+module.exports.leaderBoardEntryFactory = (name, hue, score) => {
+  return {
+    name,
+    hue,
+    score
+  };
 };

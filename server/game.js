@@ -4,6 +4,7 @@ const Filter = require('bad-words');
 const constants = require('../shared/constants');
 const { gameStateFactory, newPlayerFactory } = require('./factories');
 const { restartPlayer } = require('./restartPlayer');
+const makeLeaderboard = require('./makeLeaderboard');
 
 // initialize some things
 let state = gameStateFactory();
@@ -46,6 +47,9 @@ module.exports.startGame = io => {
       if (player.direction) {
         // push previous head to the tail array
         player.tail.push([player.x, player.y]);
+
+        // calculate score
+        player.score = player.tail.length;
 
         // do the move
         const vectors = {
@@ -93,6 +97,9 @@ module.exports.startGame = io => {
       // return the update player
       return player;
     }); // end of state.players.map()
+
+    // add leaderboard
+    state = makeLeaderboard(state);
 
     // send state to clients
     io.emit(constants.MSG.SEND_STATE, state);

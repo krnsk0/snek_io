@@ -5,6 +5,7 @@ import { setUpKeyListeners } from './keypress';
 import getViewFromState from './getViewFromState';
 import { printKBPS } from './utils';
 import renderView from './renderView';
+import renderLeaderboard from './renderLeaderboard';
 
 // initialize canvas
 const canvas = document.getElementById('canvas');
@@ -43,6 +44,9 @@ const startGame = name => {
 
     // render the view
     renderView(canvas, view);
+
+    // render the high scores
+    renderLeaderboard(state);
   });
 };
 
