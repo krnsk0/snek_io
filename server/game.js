@@ -29,7 +29,7 @@ module.exports.startGame = io => {
     socket.on(constants.MSG.SET_NAME, name => {
       // trim to 16 chars
       const cleaned = profanityFilter.clean(name);
-      player.name = cleaned.substring(0, 16);
+      player.name = cleaned.substring(0, 12);
     });
 
     // destroy player on disconnect

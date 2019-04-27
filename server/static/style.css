@@ -59,3 +59,15 @@ canvas {
   width: 60px;
   font-family: Courier, monospace;
 }
+.high-scores-container {
+  background: rgba(91, 91, 91, 0.5);
+  color: white;
+  font-size: 16px;
+  z-index: 99;
+  position: fixed;
+  padding: 10px;
+  top: 0px;
+  right: 0px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
