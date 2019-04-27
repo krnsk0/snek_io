@@ -6,8 +6,8 @@ module.exports = Object.freeze({
     CONNECTION: 'connection',
     DISCONNECT: 'disconnect',
     CONNECT: 'connect',
-    SEND_STATE: 'SS',
-    SET_NAME: 'SN',
+    SEND_STATE: 'S',
+    SET_NAME: 'S',
     DIRECTION: 'D'
   }
 });
