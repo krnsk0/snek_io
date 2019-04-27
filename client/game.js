@@ -36,8 +36,13 @@ const startGame = name => {
 
   // listen for state updates from the server
   socket.on(constants.MSG.SEND_STATE, state => {
+    // get the current player's x and y
+    const clientPlayer = state.players.find(player => player.id === socket.id);
+    const cameraX = clientPlayer.x;
+    const cameraY = clientPlayer.y;
+
     // build a view from the state
-    const view = getViewFromState(state);
+    const view = getViewFromState(state, cameraX, cameraY);
 
     // render the view
     renderView(ctx, view);

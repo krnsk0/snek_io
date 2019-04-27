@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 const constants = require('../shared/constants');
 
 const renderView = (ctx, view) => {
@@ -13,6 +14,7 @@ const renderView = (ctx, view) => {
     for (let x = 0; x < view[0].length; x += 1) {
       const cell = view[y][x];
 
+      // set colors
       if (cell.type === 'head') {
         ctx.fillStyle = `hsl(${cell.hue}, 100%, 50%)`;
       } else if (cell.type === 'tail') {
@@ -23,14 +25,23 @@ const renderView = (ctx, view) => {
         ctx.fillStyle = 'black';
       }
 
-      // fill the cell
+      // fill the cell depending on its type
       // the +1 allows the bg to come through as grid lines
-      ctx.fillRect(
-        x * constants.CELL_SIZE_PX + 1,
-        y * constants.CELL_SIZE_PX + 1,
-        constants.CELL_SIZE_PX - 1,
-        constants.CELL_SIZE_PX - 1
-      );
+      if (cell.type === 'wall') {
+        ctx.fillRect(
+          x * constants.CELL_SIZE_PX,
+          y * constants.CELL_SIZE_PX,
+          constants.CELL_SIZE_PX,
+          constants.CELL_SIZE_PX
+        );
+      } else {
+        ctx.fillRect(
+          x * constants.CELL_SIZE_PX + 1,
+          y * constants.CELL_SIZE_PX + 1,
+          constants.CELL_SIZE_PX - 1,
+          constants.CELL_SIZE_PX - 1
+        );
+      }
 
       // draw name
       if (cell.name) {
