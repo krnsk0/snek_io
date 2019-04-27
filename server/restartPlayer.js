@@ -26,5 +26,6 @@ module.exports.restartPlayer = (player, players) => {
   player.y = cell[1];
   player.tail = [];
   player.direction = false;
+  player.score = 0;
   return player;
 };
