@@ -20,7 +20,7 @@ const renderView = (ctx, view) => {
       } else if (cell.type === 'tail') {
         ctx.fillStyle = `hsl(${cell.hue}, 40%, 30%)`;
       } else if (cell.type === 'wall') {
-        ctx.fillStyle = 'grey';
+        ctx.fillStyle = 'rgb(63, 63, 63)';
       } else if (cell.type === 'empty') {
         ctx.fillStyle = 'black';
       }

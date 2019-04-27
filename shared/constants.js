@@ -1,6 +1,6 @@
 module.exports = Object.freeze({
-  MAP_WIDTH: 200,
-  MAP_HEIGHT: 200,
+  MAP_WIDTH: 150,
+  MAP_HEIGHT: 150,
   CAMERA_WIDTH: 100,
   CAMERA_HEIGHT: 80,
   SERVER_TICKS_PER_SECOND: 20,
