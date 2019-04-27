@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 const { randomCell } = require('./utils');
 
 module.exports.gameStateFactory = () => {

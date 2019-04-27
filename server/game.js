@@ -5,6 +5,7 @@ const constants = require('../shared/constants');
 const { gameStateFactory, newPlayerFactory } = require('./factories');
 const { restartPlayer } = require('./restartPlayer');
 const makeLeaderboard = require('./makeLeaderboard');
+const prepareState = require('./prepareState');
 
 // initialize some things
 let state = gameStateFactory();
@@ -101,7 +102,10 @@ module.exports.startGame = io => {
     // add leaderboard
     state = makeLeaderboard(state);
 
+    // prepare state to send to client
+    let preparedState = prepareState(state);
+
     // send state to clients
-    io.emit(constants.MSG.SEND_STATE, state);
+    io.emit(constants.MSG.SEND_STATE, preparedState);
   }, 1000 / constants.SERVER_TICKS_PER_SECOND);
 };
