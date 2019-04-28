@@ -5,6 +5,7 @@ const constants = require('../shared/constants');
 const { gameStateFactory, newPlayerFactory } = require('./factories');
 const { restartPlayer } = require('./restartPlayer');
 const compressState = require('./compressState');
+const { printServerInfo } = require('./utils');
 
 // initialize some things
 let state = gameStateFactory();
@@ -123,6 +124,9 @@ module.exports.startGame = io => {
 
     // prepare state to send to client
     let compressedState = compressState(state);
+
+    // set up logging
+    printServerInfo(compressedState, state);
 
     // send state to clients
     io.emit(constants.MSG.SEND_STATE, compressedState);

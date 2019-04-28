@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 // logging middleware
-app.use(morgan('dev'));
+app.use(morgan('tiny'));
 
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, '.', 'static')));
