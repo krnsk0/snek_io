@@ -27,9 +27,11 @@ module.exports.printServerInfo = (compressedState, state) => {
         (1000 * constants.SERVER_TICKS_PER_SECOND))
     ).toFixed(2);
 
-    // print
-    console.log(`AVG PLAYERS: ${avgPlayers}`);
-    console.log(`AVG TOTAL DATA RATE: ${stateKilobytesPerSecond} kbps`);
+    if (avgPlayers > 0) {
+      // print
+      console.log(`AVG PLAYERS: ${avgPlayers}`);
+      console.log(`AVG TOTAL DATA RATE: ${stateKilobytesPerSecond} kbps`);
+    }
 
     // clear
     stateSizes = [];
