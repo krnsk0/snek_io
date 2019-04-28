@@ -9,6 +9,7 @@ module.exports = Object.freeze({
     CONNECT: 'connect',
     SEND_STATE: 'S',
     SET_NAME: 'S',
-    DIRECTION: 'D'
+    DIRECTION: 'D',
+    SEND_INITIAL_STATE: 'I'
   }
 });

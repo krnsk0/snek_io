@@ -4,7 +4,8 @@ const { randomCell } = require('./utils');
 module.exports.gameStateFactory = () => {
   return {
     players: [],
-    leaderboard: []
+    kill: [],
+    leave: []
   };
 };
 

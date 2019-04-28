@@ -4,7 +4,7 @@ const Filter = require('bad-words');
 const constants = require('../shared/constants');
 const { gameStateFactory, newPlayerFactory } = require('./factories');
 const { restartPlayer } = require('./restartPlayer');
-const prepareState = require('./prepareState');
+const compressState = require('./compressState');
 
 // initialize some things
 let state = gameStateFactory();
@@ -17,6 +17,9 @@ module.exports.startGame = io => {
     // make a new player and add to the players array
     const player = newPlayerFactory(socket.id);
     state.players.push(player);
+
+    // send the initial state to new player
+    socket.emit(constants.MSG.SEND_INITIAL_STATE, state);
 
     // direction listener
     socket.on(constants.MSG.DIRECTION, dir => {
@@ -36,6 +39,7 @@ module.exports.startGame = io => {
     // destroy player on disconnect
     socket.on(constants.MSG.DISCONNECT, () => {
       state.players = state.players.filter(player => player.id !== socket.id);
+      state.leave.push(socket.id);
     });
   });
 
@@ -68,6 +72,7 @@ module.exports.startGame = io => {
           player.x > constants.MAP_WIDTH ||
           player.y > constants.MAP_HEIGHT
         ) {
+          state.kill.push(player.id);
           restartPlayer(player, state.players);
         }
 
@@ -77,6 +82,8 @@ module.exports.startGame = io => {
         );
         for (let otherPlayer of filteredPlayerList) {
           if (player.x === otherPlayer.x && player.y === otherPlayer.y) {
+            state.kill.push(player.id);
+            state.kill.push(otherPlayer.id);
             restartPlayer(player, state.players);
             restartPlayer(otherPlayer, state.players);
             break;
@@ -87,6 +94,7 @@ module.exports.startGame = io => {
         for (let otherPlayer of state.players) {
           for (let tailSegment of otherPlayer.tail) {
             if (player.x === tailSegment[0] && player.y === tailSegment[1]) {
+              state.kill.push(player.id);
               restartPlayer(player, state.players);
               break;
             }
@@ -99,9 +107,13 @@ module.exports.startGame = io => {
     }); // end of state.players.map()
 
     // prepare state to send to client
-    let preparedState = prepareState(state);
+    let compressedState = compressState(state);
 
     // send state to clients
-    io.emit(constants.MSG.SEND_STATE, preparedState);
+    io.emit(constants.MSG.SEND_STATE, compressedState);
+
+    // clear our the kill and leave lists
+    state.kill = [];
+    state.leave = [];
   }, 1000 / constants.SERVER_TICKS_PER_SECOND);
 };

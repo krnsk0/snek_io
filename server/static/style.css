@@ -58,9 +58,10 @@ canvas {
   font-size: 14px;
   width: 60px;
   font-family: Courier, monospace;
+  margin-top: 10px;
 }
 .leaderboard-container {
-  background: rgba(91, 91, 91, 0.5);
+  background: rgba(113, 113, 113, 0.603);
   color: white;
   font-size: 16px;
   z-index: 99;
