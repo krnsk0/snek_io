@@ -32,6 +32,7 @@ const renderLeaderboard = state => {
   // iterate players and build rows
   for (const [index, entry] of leaderboard.entries()) {
     let leaderboardRow = document.createElement('tr');
+    leaderboardRow.style.backgroundColor = `hsl(${entry.hue}, 60%, 50%, 50%)`;
     let tdNumber = document.createElement('td');
     let tdName = document.createElement('td');
     let tdScore = document.createElement('td');
@@ -39,9 +40,6 @@ const renderLeaderboard = state => {
     tdNumber.innerHTML = index + 1;
     tdName.className += 'leaderboard-name';
     tdName.innerText = entry.name;
-
-    tdName.style.color = `hsl(${entry.hue}, 100%, 50%)`;
-
     tdScore.className += 'leaderboard-score';
     tdScore.innerText = entry.score;
     leaderboardRow.appendChild(tdNumber);

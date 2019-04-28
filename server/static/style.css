@@ -87,6 +87,7 @@ canvas {
   table-layout: fixed;
   text-emphasis: bold;
   width: 100%;
+  border-collapse: collapse;
 }
 .leaderboard-number {
   text-align: left;
@@ -98,4 +99,7 @@ canvas {
 }
 .leaderboard-score {
   text-align: right;
+}
+td {
+  border: 0px;
 }
