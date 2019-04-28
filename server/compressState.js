@@ -1,8 +1,8 @@
-const clonedeep = require('lodash/clonedeep');
+const { cloneDeep } = require('lodash');
 
 const compressState = state => {
   // copy the state
-  let clone = clonedeep(state);
+  let clone = cloneDeep(state);
 
   clone.players = clone.players.map(player => {
     // delete the direction key, not needed on clinet side
