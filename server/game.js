@@ -25,7 +25,19 @@ module.exports.startGame = io => {
     socket.on(constants.MSG.DIRECTION, dir => {
       // don't allow the player to stop once started
       if (dir) {
-        player.direction = dir;
+        // filter keypresses that would kill the player
+        if (dir === 'up' && player.direction !== 'down') {
+          player.direction = dir;
+        }
+        if (dir === 'down' && player.direction !== 'up') {
+          player.direction = dir;
+        }
+        if (dir === 'left' && player.direction !== 'right') {
+          player.direction = dir;
+        }
+        if (dir === 'right' && player.direction !== 'left') {
+          player.direction = dir;
+        }
       }
     });
 
