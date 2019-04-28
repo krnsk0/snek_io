@@ -8,8 +8,9 @@ module.exports = Object.freeze({
     DISCONNECT: 'disconnect',
     CONNECT: 'connect',
     SEND_STATE: 'S',
-    SET_NAME: 'S',
+    SET_NAME: 'N',
     DIRECTION: 'D',
-    SEND_INITIAL_STATE: 'I'
+    SEND_INITIAL_STATE: 'I',
+    GET_NAME: 'G'
   }
 });

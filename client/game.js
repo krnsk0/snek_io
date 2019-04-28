@@ -28,7 +28,12 @@ const startGame = name => {
   });
 
   // send the user's player name
-  socket.emit(constants.MSG.SET_NAME, name);
+  // socket.emit(constants.MSG.SET_NAME, name);
+
+  // send name on request
+  socket.on(constants.MSG.GET_NAME, () => {
+    socket.emit(constants.MSG.SET_NAME, name);
+  });
 
   // print kbps on state updates
   window.kbps = false;

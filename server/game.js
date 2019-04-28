@@ -18,6 +18,9 @@ module.exports.startGame = io => {
     const player = newPlayerFactory(socket.id);
     state.players.push(player);
 
+    // ask for name
+    socket.emit(constants.MSG.GET_NAME);
+
     // send the initial state to new player
     socket.emit(constants.MSG.SEND_INITIAL_STATE, state);
 
