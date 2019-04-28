@@ -5,7 +5,7 @@ let CAMERA_WIDTH;
 let CAMERA_HEIGHT;
 let BASELINE_HEIGHT_CELLS = 45;
 let BASELINE_WIDTH_CELLS = Math.ceil(BASELINE_HEIGHT_CELLS * constants.ZOOM);
-let ZOOM_ADJUSTMENT = 0.6;
+let ZOOM_ADJUSTMENT = 0.55; // smaller is zoomed out
 
 // changes stuff on window resize event
 window.addEventListener('resize', () => {
