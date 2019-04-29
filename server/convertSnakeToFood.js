@@ -8,7 +8,7 @@ const convertSnakeToFood = (state, player) => {
 
   killedPlayer.tail.forEach(block => {
     let chance = Math.floor(Math.random() * 5);
-    if (chance === 0) {
+    if (chance === 0 && foodToProduce > 0) {
       foodToProduce -= 1;
       makeFood(state, true, block[0], block[1]);
     }
