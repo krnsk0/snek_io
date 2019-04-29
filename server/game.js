@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable complexity */
 /* eslint-disable function-paren-newline */
 const Filter = require('bad-words');
@@ -6,10 +7,18 @@ const { gameStateFactory, newPlayerFactory } = require('./factories');
 const { restartPlayer } = require('./restartPlayer');
 const compressState = require('./compressState');
 const { printServerInfo } = require('./utils');
+const makeFood = require('./makeFood');
+const getScores = require('./getScore');
 
 // initialize some things
 let state = gameStateFactory();
 const profanityFilter = new Filter();
+
+// add some food
+for (let i = 0; i < constants.STARTING_FOOD; i += 1) {
+  let addToEatList = false;
+  state = makeFood(state, addToEatList);
+}
 
 // initialize the game
 module.exports.startGame = io => {
@@ -68,8 +77,13 @@ module.exports.startGame = io => {
         // push previous head to the tail array
         player.tail.push([player.x, player.y]);
 
+        // shrink tail if needed
+        if (player.tail.length > player.length) {
+          player.tail = player.tail.slice(1);
+        }
+
         // calculate score
-        player.score = player.tail.length;
+        state = getScores(state);
 
         // do the move
         const vectors = {
@@ -81,6 +95,27 @@ module.exports.startGame = io => {
         player.x += vectors[player.direction][0];
         player.y += vectors[player.direction][1];
 
+        // check for food collitions
+        for (let food of state.food) {
+          if (food.x === player.x && food.y === player.y) {
+            // delete this food
+            state.food = state.food.filter(
+              filterFood =>
+                !(filterFood.x === player.x && filterFood.y === player.y)
+            );
+
+            // add it to the eaten list
+            state.eat.push(food);
+
+            // increase player length
+            player.length = player.length + 5;
+
+            // make another food
+            state = makeFood(state);
+            break;
+          }
+        }
+
         // check for wall death
         if (
           player.x < 0 ||
@@ -89,7 +124,7 @@ module.exports.startGame = io => {
           player.y > constants.MAP_HEIGHT
         ) {
           state.kill.push(player.id);
-          restartPlayer(player, state.players);
+          restartPlayer(player, state);
         }
 
         // check for head collisions with all other players
@@ -100,8 +135,8 @@ module.exports.startGame = io => {
           if (player.x === otherPlayer.x && player.y === otherPlayer.y) {
             state.kill.push(player.id);
             state.kill.push(otherPlayer.id);
-            restartPlayer(player, state.players);
-            restartPlayer(otherPlayer, state.players);
+            restartPlayer(player, state);
+            restartPlayer(otherPlayer, state);
             break;
           }
         }
@@ -111,7 +146,7 @@ module.exports.startGame = io => {
           for (let tailSegment of otherPlayer.tail) {
             if (player.x === tailSegment[0] && player.y === tailSegment[1]) {
               state.kill.push(player.id);
-              restartPlayer(player, state.players);
+              restartPlayer(player, state);
               break;
             }
           }
@@ -131,8 +166,10 @@ module.exports.startGame = io => {
     // send state to clients
     io.emit(constants.MSG.SEND_STATE, compressedState);
 
-    // clear our the kill and leave lists
+    // clear our the kill, leave, make, eat lists
     state.kill = [];
     state.leave = [];
+    state.make = [];
+    state.eat = [];
   }, 1000 / constants.SERVER_TICKS_PER_SECOND);
 };

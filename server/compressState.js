@@ -5,7 +5,7 @@ const compressState = state => {
   let clone = cloneDeep(state);
 
   clone.players = clone.players.map(player => {
-    // delete the direction key, not needed on clinet side
+    // delete the direction key, not needed on client side
     delete player.direction;
 
     // only send the last tail block
@@ -15,6 +15,9 @@ const compressState = state => {
 
     return player;
   });
+
+  // delete the food key
+  delete clone.food;
 
   return clone;
 };

@@ -27,9 +27,6 @@ const startGame = name => {
     console.log('connection id:', id);
   });
 
-  // send the user's player name
-  // socket.emit(constants.MSG.SET_NAME, name);
-
   // send name on request
   socket.on(constants.MSG.GET_NAME, () => {
     socket.emit(constants.MSG.SET_NAME, name);
@@ -72,6 +69,18 @@ const startGame = name => {
       }
     });
 
+    // add any new food
+    state.make.forEach(food => {
+      stateStore.food.push(food);
+    });
+
+    // delete eaten food
+    state.eat.forEach(food => {
+      stateStore.food = stateStore.food.filter(
+        storedFood => !(storedFood.x === food.x && storedFood.y === food.y)
+      );
+    });
+
     // push changes to state store
     state.players.forEach(player => {
       // grab the stored player
@@ -84,11 +93,17 @@ const startGame = name => {
         storedStatePlayer.tail.push(block);
       });
 
+      // shrink tail if needed
+      if (storedStatePlayer.tail.length > storedStatePlayer.length) {
+        storedStatePlayer.tail.shift();
+      }
+
       // copy x and y, name, score
       storedStatePlayer.x = player.x;
       storedStatePlayer.y = player.y;
       storedStatePlayer.name = player.name;
       storedStatePlayer.score = player.score;
+      storedStatePlayer.length = player.length;
     });
 
     // get the current player's x and y

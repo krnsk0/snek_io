@@ -32,6 +32,9 @@ const renderView = (canvas, view) => {
         ctx.fillStyle = `hsl(${cell.hue}, 40%, 30%)`;
       } else if (cell.type === 'wall') {
         ctx.fillStyle = 'rgb(63, 63, 63)';
+      } else if (cell.type === 'food') {
+        let color = Math.floor(Math.random() * 360);
+        ctx.fillStyle = `hsl(${color}, 70%, 30%)`;
       } else if (cell.type === 'empty') {
         ctx.fillStyle = 'black';
       }

@@ -18,8 +18,6 @@ const getViewFromState = (state, cameraX, cameraY) => {
   const minY = cameraY - Math.floor(calculateCameraHeight() / 2);
   const maxX = cameraX + Math.floor(calculateCameraWidth() / 2);
   const maxY = cameraY + Math.floor(calculateCameraHeight() / 2);
-  // console.log(`boundaries: ${minX} ${minY} ${maxX} ${maxY}`);
-  // console.log(`cam: ${cameraX} ${cameraY}`);
 
   // function for boundary checking with these in scope
   const inBounds = (x, y) => {
@@ -56,6 +54,13 @@ const getViewFromState = (state, cameraX, cameraY) => {
         view[tailSegment[1] - minY][tailSegment[0] - minX].hue = player.hue;
       }
     });
+  });
+
+  // render food
+  state.food.forEach(food => {
+    if (inBounds(food.x, food.y)) {
+      view[food.y - minY][food.x - minX].type = 'food';
+    }
   });
 
   return view;

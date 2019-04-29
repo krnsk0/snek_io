@@ -1,11 +1,15 @@
 /* eslint-disable no-shadow */
 const { randomCell } = require('./utils');
+const constants = require('../shared/constants');
 
 module.exports.gameStateFactory = () => {
   return {
     players: [],
     kill: [],
-    leave: []
+    leave: [],
+    food: [],
+    make: [],
+    eat: []
   };
 };
 
@@ -19,7 +23,12 @@ module.exports.newPlayerFactory = id => {
     hue: Math.floor(Math.random() * 360),
     tail: [],
     name: '',
-    score: 0
+    score: 0,
+    length: constants.INITIAL_SNAKE_LENGTH
   };
   return player;
+};
+
+module.exports.foodFactory = (x, y) => {
+  return { x, y };
 };
