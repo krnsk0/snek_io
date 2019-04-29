@@ -18,7 +18,7 @@ const convertSnakeToFood = (state, player) => {
   });
 
   // if we didn't produce enough food, make some food in random locations
-  if (foodToProduce > 0) {
+  while (state.food.length < constants.MAX_FOOD) {
     makeFood(state, true);
   }
 
