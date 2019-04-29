@@ -9,6 +9,7 @@ const compressState = require('./compressState');
 const { printServerInfo } = require('./utils');
 const makeFood = require('./makeFood');
 const getScores = require('./getScore');
+const convertSnakeToFood = require('./convertSnakeToFood');
 
 // initialize some things
 let state = gameStateFactory();
@@ -124,6 +125,7 @@ module.exports.startGame = io => {
           player.y > constants.MAP_HEIGHT
         ) {
           state.kill.push(player.id);
+          convertSnakeToFood(state, player);
           restartPlayer(player, state);
         }
 
@@ -135,7 +137,9 @@ module.exports.startGame = io => {
           if (player.x === otherPlayer.x && player.y === otherPlayer.y) {
             state.kill.push(player.id);
             state.kill.push(otherPlayer.id);
+            convertSnakeToFood(state, player);
             restartPlayer(player, state);
+            convertSnakeToFood(state, otherPlayer);
             restartPlayer(otherPlayer, state);
             break;
           }
@@ -146,6 +150,7 @@ module.exports.startGame = io => {
           for (let tailSegment of otherPlayer.tail) {
             if (player.x === tailSegment[0] && player.y === tailSegment[1]) {
               state.kill.push(player.id);
+              convertSnakeToFood(state, player);
               restartPlayer(player, state);
               break;
             }
