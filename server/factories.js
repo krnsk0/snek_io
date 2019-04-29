@@ -20,6 +20,7 @@ module.exports.newPlayerFactory = id => {
     x,
     y,
     direction: false,
+    nextDirection: false,
     hue: Math.floor(Math.random() * 360),
     tail: [],
     name: '',

@@ -40,17 +40,18 @@ module.exports.startGame = io => {
       // don't allow the player to stop once started
       if (dir) {
         // filter keypresses that would kill the player
+        // cache the direction until the next update
         if (dir === 'up' && player.direction !== 'down') {
-          player.direction = dir;
+          player.nextDirection = dir;
         }
         if (dir === 'down' && player.direction !== 'up') {
-          player.direction = dir;
+          player.nextDirection = dir;
         }
         if (dir === 'left' && player.direction !== 'right') {
-          player.direction = dir;
+          player.nextDirection = dir;
         }
         if (dir === 'right' && player.direction !== 'left') {
-          player.direction = dir;
+          player.nextDirection = dir;
         }
       }
     });
@@ -73,6 +74,9 @@ module.exports.startGame = io => {
   setInterval(() => {
     // process player changes
     state.players = state.players.map(player => {
+      // update direction from the cache
+      player.direction = player.nextDirection;
+
       // if moving...
       if (player.direction) {
         // push previous head to the tail array

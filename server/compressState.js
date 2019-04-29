@@ -8,6 +8,7 @@ const compressState = state => {
   clone.players = clone.players.map(player => {
     // delete the direction key, not needed on client side
     delete player.direction;
+    delete player.nextDirection;
 
     // only send the last tail block
     if (player.tail.length) {
