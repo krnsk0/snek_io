@@ -4,8 +4,9 @@ module.exports = Object.freeze({
   SERVER_TICKS_PER_SECOND: 15,
   ZOOM: 1.8, // float between 0.5 and 1.8
   SERVER_LOG_TIME_SECS: 5,
-  STARTING_FOOD: 100,
+  MAX_FOOD: 100,
   INITIAL_SNAKE_LENGTH: 10,
+  FOOD_NUTRITION: 5,
   MSG: {
     CONNECTION: 'connection',
     DISCONNECT: 'disconnect',

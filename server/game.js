@@ -16,7 +16,7 @@ let state = gameStateFactory();
 const profanityFilter = new Filter();
 
 // add some food
-for (let i = 0; i < constants.STARTING_FOOD; i += 1) {
+for (let i = 0; i < constants.MAX_FOOD; i += 1) {
   let addToEatList = false;
   state = makeFood(state, addToEatList);
 }
@@ -109,10 +109,8 @@ module.exports.startGame = io => {
             state.eat.push(food);
 
             // increase player length
-            player.length = player.length + 5;
+            player.length = player.length + constants.FOOD_NUTRITION;
 
-            // make another food
-            state = makeFood(state);
             break;
           }
         }
