@@ -6,6 +6,7 @@ import getViewFromState from './getViewFromState';
 import { printKBPS } from './utils';
 import renderView from './renderView';
 import renderLeaderboard from './renderLeaderboard';
+import decompressState from './decompressState';
 
 // initialize canvas
 const canvas = document.getElementById('canvas');
@@ -44,6 +45,9 @@ const startGame = name => {
 
   // listen for state updates from the server
   socket.on(constants.MSG.SEND_STATE, state => {
+    // decompress it
+    state = decompressState(state);
+
     // handle disconnects
     state.leave.forEach(leaveId => {
       // erase player from store

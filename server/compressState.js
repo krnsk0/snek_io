@@ -1,4 +1,5 @@
 const { cloneDeep } = require('lodash');
+const constants = require('../shared/constants');
 
 const compressState = state => {
   // copy the state
@@ -18,8 +19,14 @@ const compressState = state => {
 
   // delete the food key
   delete clone.food;
-
-  return clone;
+  return {
+    [constants.KEYS.PLAYERS]: clone.players,
+    [constants.KEYS.KILL]: clone.kill,
+    [constants.KEYS.LEAVE]: clone.leave,
+    [constants.KEYS.FOOD]: clone.food,
+    [constants.KEYS.MAKE]: clone.make,
+    [constants.KEYS.EAT]: clone.eat
+  };
 };
 
 module.exports = compressState;

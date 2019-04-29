@@ -12,7 +12,7 @@ module.exports.restartPlayer = (player, state) => {
   player.y = cell[1];
   player.tail = [];
   player.direction = false;
-  player.score = Math.floor(player.score / 10);
+  player.score = Math.floor(player.score / 2);
   player.length = constants.INITIAL_SNAKE_LENGTH;
   return player;
 };
