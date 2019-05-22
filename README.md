@@ -2,4 +2,4 @@
 
 https://snekio.herokuapp.com/
 
-Multiplayer snake clone using sockets.io.
+A multiplayer, socket-io-based clone of the classic Snake game.
