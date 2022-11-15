@@ -8,7 +8,7 @@
     "build-watch": "webpack -w",
     "build-deploy": "webpack",
     "start": "node server",
-    "deploy": "fly launch"
+    "deploy": "fly deploy"
   },
   "author": "",
   "license": "ISC",
