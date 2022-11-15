@@ -5,7 +5,7 @@ A multiplayer, socket-io-based clone of the classic Snake game.
 Deployed via fly.io [here](https://snekio.fly.dev/)
 
 # State shape
-
+```js
 {
   players: Array<{
     hue: string;
@@ -32,3 +32,4 @@ Deployed via fly.io [here](https://snekio.fly.dev/)
     y: number
   }>,
 }
+```
